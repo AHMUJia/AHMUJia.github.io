@@ -11,13 +11,29 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="preconnect" href="https://ka-f.fontawesome.com" crossorigin>
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous">
-  <script src="https://kit.fontawesome.com/a860a211d3.js" crossorigin="anonymous"></script>
-
+  <!-- Critical local styles first (no external blocking) -->
   <link rel="stylesheet" href="assets/css/font_sans_serif.css">
   <link rel="stylesheet" href="assets/css/theme-luka.css">
+
+  <!-- External CSS loaded non-blocking (media-hack) -->
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        media="print" onload="this.media='all'">
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css"
+        integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw="
+        crossorigin="anonymous"
+        media="print" onload="this.media='all'">
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css">
+  </noscript>
+
+  <!-- FontAwesome kit: defer so it doesn't block rendering -->
+  <script src="https://kit.fontawesome.com/a860a211d3.js" crossorigin="anonymous" defer></script>
 </head>
 <body class="theme-luka">
   <nav class="top-nav">
@@ -57,7 +73,9 @@
         </div>
 
         <div class="visitor-map sidebar-map">
-          <script type="text/javascript" id="mapmyvisitors" src="https://mapmyvisitors.com/map.js?d=uu7w8r1_WQG9kJIpSWMoFhwWqMY3sPaUldJae244TD8&cl=ffffff&w=a"></script>
+          <!-- Rendered in an isolated iframe so the map's document.write does NOT block the main page -->
+          <iframe src="visitor-map.html" class="visitor-map-frame"
+                  loading="lazy" frameborder="0" scrolling="no" title="Visitor Map"></iframe>
         </div>
       </div>
     </header>
