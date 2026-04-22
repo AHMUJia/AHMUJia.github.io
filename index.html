@@ -72,11 +72,21 @@
           <a href="https://github.com/AHMUJia" target="_blank" rel="noopener" title="GitHub"><i class="fa-brands fa-github"></i></a>
         </div>
 
-        <div class="visitor-map sidebar-map">
-          <!-- Rendered in an isolated iframe so the map's document.write does NOT block the main page -->
+        <div class="visitor-map sidebar-map" id="mmv-slot">
+          <!-- Rendered in an isolated iframe so the map's document.write does NOT block the main page.
+               Also removed entirely on mobile (see inline script below) to save network. -->
           <iframe src="visitor-map.html" class="visitor-map-frame"
                   loading="lazy" frameborder="0" scrolling="no" title="Visitor Map"></iframe>
         </div>
+        <script>
+          // On narrow viewports, drop the map iframe before it loads — no wasted requests on mobile.
+          (function () {
+            if (window.innerWidth <= 640) {
+              var slot = document.getElementById('mmv-slot');
+              if (slot) slot.remove();
+            }
+          })();
+        </script>
       </div>
     </header>
 

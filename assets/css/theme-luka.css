@@ -1545,10 +1545,15 @@ body.theme-luka .card-link {
     font-size: 22px;
   }
 
-  body.theme-luka .visitor-card,
-  body.theme-luka .visitor-map {
+  body.theme-luka .visitor-card {
     width: 100%;
     max-width: 280px;
+  }
+
+  /* Hide visitor map on mobile (saves bandwidth and avoids slow external load) */
+  body.theme-luka .visitor-map,
+  body.theme-luka .visitor-map-frame {
+    display: none !important;
   }
 }
 
