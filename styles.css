@@ -1,0 +1,267 @@
+:root{
+  color-scheme: light;
+  --bg: #f6f7fb;
+  --card: #ffffff;
+  --text: #111827;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --link: #2563eb;
+  --shadow: 0 12px 40px rgba(15, 23, 42, 0.08);
+  --radius: 16px;
+  --max-width: 980px;
+  --sans: "Segoe UI", system-ui, -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
+}
+
+*{ box-sizing: border-box; }
+body{
+  margin: 0;
+  font-family: var(--sans);
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.7;
+}
+img{ max-width: 100%; display: block; }
+a{ color: var(--link); text-decoration: none; }
+a:hover{ text-decoration: underline; }
+
+.page{
+  max-width: var(--max-width);
+  margin: 32px auto 0;
+  padding: 0 20px 40px;
+}
+
+.hero{
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 28px;
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 24px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+.hero-avatar{
+  width: 180px;
+  height: 210px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.hero h1{
+  margin: 0 0 8px;
+  font-size: 30px;
+}
+.hero-email{
+  margin: 0 0 10px;
+  color: var(--muted);
+  font-weight: 600;
+}
+.hero-meta{
+  color: var(--muted);
+  font-size: 15px;
+}
+.hero-links{
+  margin-top: 14px;
+  font-weight: 600;
+}
+.hero-links a{
+  margin-right: 14px;
+}
+
+.card{
+  margin-top: 24px;
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 22px 26px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+.card h2{
+  margin: 0 0 14px;
+  font-size: 20px;
+}
+
+.entry{
+  border-top: 1px solid var(--border);
+  padding: 14px 0;
+}
+.entry:first-of-type{
+  border-top: none;
+  padding-top: 0;
+}
+.entry-title{
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.entry-subtitle{
+  color: var(--muted);
+}
+.entry-time{
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.pub-list{
+  margin: 0;
+  padding-left: 20px;
+}
+.pub-list li{
+  margin: 12px 0;
+}
+.pub-title{
+  font-weight: 600;
+}
+.pub-meta{
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.award-list{
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+.award-list li{
+  margin: 10px 0;
+}
+
+.site-footer{
+  max-width: var(--max-width);
+  margin: 20px auto 40px;
+  color: var(--muted);
+  font-size: 13px;
+  text-align: center;
+}
+
+@media (max-width: 780px){
+  .hero{
+    grid-template-columns: 1fr;
+    padding: 22px;
+  }
+  .hero-avatar{
+    width: 140px;
+    height: 170px;
+  }
+}
+:root{
+  color-scheme: light;
+  --text: #111827;
+  --muted: #4b5563;
+  --border: #e5e7eb;
+  --link: #2563eb;
+  --bg: #ffffff;
+  --max-width: 860px;
+  --sans: "Segoe UI", system-ui, -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
+}
+
+*{ box-sizing: border-box; }
+body{
+  margin: 0;
+  font-family: var(--sans);
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.7;
+}
+img{ max-width: 100%; display: block; }
+a{ color: var(--link); text-decoration: none; }
+a:hover{ text-decoration: underline; }
+
+.page{
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 36px 22px 24px;
+}
+
+.hero{
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+.avatar{
+  width: 170px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+.hero-text h1{
+  margin: 0 0 6px;
+  font-size: 30px;
+}
+.hero-meta{
+  color: var(--muted);
+  font-size: 14px;
+}
+.intro{
+  margin: 14px 0;
+}
+.hero-actions{
+  margin-top: 6px;
+}
+.link{
+  font-weight: 600;
+}
+.dot{ margin: 0 6px; opacity: .6; }
+
+.section{
+  margin-top: 32px;
+}
+.section h2{
+  margin: 0 0 14px;
+  font-size: 20px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 6px;
+}
+.item{
+  margin-bottom: 14px;
+}
+.item-title{
+  font-weight: 600;
+}
+.item-meta{
+  color: var(--muted);
+  font-size: 14px;
+}
+.item-desc{
+  margin: 6px 0 0;
+  color: var(--muted);
+}
+
+.pub-list{
+  padding-left: 20px;
+  margin: 0;
+}
+.pub-list li{
+  margin: 10px 0;
+}
+
+.bullet-list{
+  padding-left: 18px;
+  margin: 0;
+}
+.bullet-list li{
+  margin: 8px 0;
+}
+
+.contact-line{
+  margin: 6px 0;
+}
+
+.footer{
+  max-width: var(--max-width);
+  margin: 0 auto 26px;
+  padding: 0 22px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+@media (max-width: 720px){
+  .hero{
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .avatar{
+    width: 150px;
+    height: 180px;
+  }
+}

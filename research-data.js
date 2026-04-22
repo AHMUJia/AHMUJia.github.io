@@ -1,0 +1,38 @@
+/**
+ * Research topics — each item: { name, title, points[] } (HTML allowed in points).
+ */
+window.__RESEARCH_VERSION__ = 2;
+window.__RESEARCH__ = [
+  {
+    "name": "CP/CPPS",
+    "title": "慢性前列腺炎 / 慢性盆腔疼痛综合征（CP/CPPS）",
+    "image": "assets/img/research/cp-cpps.svg",
+    "points": [
+      "结合单细胞测序与功能免疫表型，刻画免疫失调图谱与促炎性 T 细胞特征，以及 CD8⁺ TEMRA 炎症特征。",
+      "以免疫-基质/炎症通路为导向，探索 HA/CD44–Annexin A1/Akt/mTOR 轴等潜在干预靶点。",
+      "通过代谢组学分层与疗效预测模型（列线图），支持个体化治疗与反应评估。",
+      "在人群队列中识别饮食/脂质风险模式，支持营养与炎症之间的关联。"
+    ]
+  },
+  {
+    "name": "前列腺癌",
+    "title": "前列腺癌（PCa）与肿瘤免疫微环境",
+    "image": "assets/img/research/pca.svg",
+    "points": [
+      "系统分析肿瘤免疫微环境并构建免疫相关分层框架，关联预后与免疫治疗/化疗潜在获益。",
+      "构建多组学分型与预测系统，支持精准风险分层与治疗选择（含 AR 信号抑制剂相关决策）。",
+      "开发多类预后工具（免疫浸润、凝血因子、人群生存列线图等），面向临床可解释与可落地。",
+      "聚焦治疗耐药与晚期疾病机制，探索通路阻断对免疫抑制微环境的重塑效应。"
+    ]
+  },
+  {
+    "name": "临床转化",
+    "title": "临床转化与真实世界证据",
+    "image": "assets/img/research/translation.svg",
+    "points": [
+      "结合多组学、孟德尔随机化、荟萃分析等方法，构建从机制到证据的闭环。",
+      "关注&quot;肠道-前列腺轴&quot;、血液代谢物/蛋白质/性激素介导路径，扩展炎症性前列腺疾病理解。",
+      "提供 COVID-19 背景下泌尿相关治疗（如抗雄激素）真实世界证据与综合评估。"
+    ]
+  }
+];

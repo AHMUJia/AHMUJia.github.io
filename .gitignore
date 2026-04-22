@@ -1,0 +1,20 @@
+# admin 编辑器只在本地使用，不发布
+admin.html
+assets/js/admin.js
+
+# 临时脚本
+_*.py
+_*.txt
+_*.html
+_*.css
+
+# 源 Word 文档（网站只用 PDF 版）
+*.docx
+
+# 系统/IDE
+~$*
+Thumbs.db
+.DS_Store
+.idea/
+.vscode/
+*.swp

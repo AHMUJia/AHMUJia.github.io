@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 200" role="img" aria-label="CP/CPPS 免疫失衡示意图">
+  <rect width="280" height="200" rx="12" fill="#f0f5f5"/>
+
+  <!-- Central prostate gland -->
+  <ellipse cx="140" cy="100" rx="46" ry="38" fill="#126f77"/>
+  <ellipse cx="140" cy="100" rx="46" ry="38" fill="none" stroke="#0e5a61" stroke-width="2"/>
+  <!-- Inner ducts -->
+  <path d="M 112 82 Q 140 74, 168 82 M 112 100 Q 140 93, 168 100 M 112 118 Q 140 110, 168 118"
+        stroke="#fff" stroke-width="1.4" fill="none" opacity="0.55"/>
+  <text x="140" y="104" text-anchor="middle" fill="#fff" font-family="Inter,sans-serif" font-size="11" font-weight="700">prostate</text>
+
+  <!-- Th17 cells (gold = proinflammatory) -->
+  <g>
+    <circle cx="50" cy="50" r="12" fill="#fff" stroke="#c7a063" stroke-width="2.2"/>
+    <circle cx="50" cy="50" r="4" fill="#c7a063"/>
+    <text x="50" y="28" text-anchor="middle" fill="#8a6a2c" font-family="Inter,sans-serif" font-size="10" font-weight="700">Th17</text>
+  </g>
+  <g>
+    <circle cx="56" cy="158" r="11" fill="#fff" stroke="#c7a063" stroke-width="2"/>
+    <circle cx="56" cy="158" r="3.5" fill="#c7a063"/>
+  </g>
+  <!-- CD8⁺ TEMRA -->
+  <g>
+    <circle cx="32" cy="110" r="10" fill="#fff" stroke="#c7a063" stroke-width="2"/>
+    <circle cx="32" cy="110" r="3" fill="#c7a063"/>
+  </g>
+
+  <!-- Treg cells (teal = regulatory) -->
+  <g>
+    <circle cx="232" cy="50" r="12" fill="#fff" stroke="#22757d" stroke-width="2.2"/>
+    <circle cx="232" cy="50" r="4" fill="#22757d"/>
+    <text x="232" y="28" text-anchor="middle" fill="#126f77" font-family="Inter,sans-serif" font-size="10" font-weight="700">Treg</text>
+  </g>
+  <g>
+    <circle cx="228" cy="158" r="11" fill="#fff" stroke="#22757d" stroke-width="2"/>
+    <circle cx="228" cy="158" r="3.5" fill="#22757d"/>
+  </g>
+  <g>
+    <circle cx="250" cy="110" r="10" fill="#fff" stroke="#22757d" stroke-width="2"/>
+    <circle cx="250" cy="110" r="3" fill="#22757d"/>
+  </g>
+
+  <!-- Cytokine arrows -->
+  <defs>
+    <marker id="arrInflame" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#c7a063"/>
+    </marker>
+    <marker id="arrReg" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#22757d"/>
+    </marker>
+  </defs>
+  <g stroke="#c7a063" stroke-width="1.8" fill="none" opacity="0.7">
+    <line x1="62" y1="55" x2="96" y2="85" marker-end="url(#arrInflame)"/>
+    <line x1="64" y1="155" x2="99" y2="123" marker-end="url(#arrInflame)"/>
+    <line x1="42" y1="110" x2="90" y2="103" marker-end="url(#arrInflame)"/>
+  </g>
+  <g stroke="#22757d" stroke-width="1.8" fill="none" opacity="0.65">
+    <line x1="220" y1="55" x2="186" y2="85" marker-end="url(#arrReg)"/>
+    <line x1="218" y1="155" x2="183" y2="123" marker-end="url(#arrReg)"/>
+  </g>
+</svg>

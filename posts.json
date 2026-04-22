@@ -1,0 +1,19 @@
+[
+  {
+    "title": "关于我：临床医生与医学研究者的交叉路口",
+    "date": "2026-01-31",
+    "readingTime": "4 min",
+    "tags": ["About", "Career", "Urology"],
+    "summary": "用一个更“可读”的方式介绍我的临床与科研主线：前列腺疾病、免疫微环境、多组学与转化研究。",
+    "url": "./posts/2026-01-31-about.html"
+  },
+  {
+    "title": "研究笔记：CP/CPPS 的免疫失调与可转化靶点（提纲）",
+    "date": "2026-01-25",
+    "readingTime": "6 min",
+    "tags": ["CP/CPPS", "Immunology", "Translational"],
+    "summary": "基于既往工作与文献脉络，整理 CP/CPPS 中促炎性 T 细胞特征、HA/CD44 轴与免疫-代谢通路的关键问题。",
+    "url": "./posts/2026-01-25-cpcpps-notes.html"
+  }
+]
+

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>研究｜孟佳林</title>
+  <meta name="description" content="研究方向：慢性前列腺炎（CP/CPPS）、前列腺癌（PCa）、免疫微环境、多组学与临床转化。">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/a860a211d3.js" crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" href="assets/css/font_sans_serif.css">
+  <link rel="stylesheet" href="assets/css/theme-luka.css">
+</head>
+<body class="theme-luka">
+  <nav class="top-nav">
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="./index.html">Home</a>
+        <a href="./research.html" class="is-active">Research</a>
+        <a href="./publications.html">Publications</a>
+        <a href="./awards.html">Awards</a>
+        <a href="./tools.html">Tools</a>
+      </div>
+      <div class="nav-right">
+        <button id="themeToggle" class="theme-toggle" title="Toggle theme" aria-label="Toggle theme">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="subpage">
+    <div id="research-root"></div>
+  </main>
+
+  <footer class="subpage-footer">
+    <p>
+      &copy; <span data-year></span> 孟佳林
+      <span class="dot" aria-hidden="true">·</span>
+      <a href="./index.html">主页</a>
+      <span class="dot" aria-hidden="true">·</span>
+      <a href="./publications.html">论文</a>
+      <span class="dot" aria-hidden="true">·</span>
+      <a href="./tools.html">工具</a>
+    </p>
+  </footer>
+
+  <script src="assets/js/scale.fix.js"></script>
+  <script src="assets/js/theme.js"></script>
+  <script src="./research-data.js"></script>
+  <script src="./assets/js/render.js"></script>
+  <script>
+    if (window.renderResearch) renderResearch('#research-root');
+  </script>
+</body>
+</html>

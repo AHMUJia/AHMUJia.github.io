@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>工具｜孟佳林</title>
+  <meta name="description" content="自研 / 贡献的小工具集：学术作图、科研辅助、临床工作流等。">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/a860a211d3.js" crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" href="assets/css/font_sans_serif.css">
+  <link rel="stylesheet" href="assets/css/theme-luka.css">
+</head>
+<body class="theme-luka">
+  <nav class="top-nav">
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="./index.html">Home</a>
+        <a href="./research.html">Research</a>
+        <a href="./publications.html">Publications</a>
+        <a href="./awards.html">Awards</a>
+        <a href="./tools.html" class="is-active">Tools</a>
+      </div>
+      <div class="nav-right">
+        <button id="themeToggle" class="theme-toggle" title="Toggle theme" aria-label="Toggle theme">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="subpage">
+    <div id="tools-root"></div>
+  </main>
+
+  <footer class="subpage-footer">
+    <p>
+      &copy; <span data-year></span> 孟佳林
+      <span class="dot" aria-hidden="true">·</span>
+      <a href="./index.html">主页</a>
+      <span class="dot" aria-hidden="true">·</span>
+      <a href="./research.html">研究</a>
+      <span class="dot" aria-hidden="true">·</span>
+      <a href="./publications.html">论文</a>
+      <span class="dot" aria-hidden="true">·</span>
+      <a href="./awards.html">奖项</a>
+    </p>
+  </footer>
+
+  <script src="assets/js/scale.fix.js"></script>
+  <script src="assets/js/theme.js"></script>
+  <script src="./tools-data.js"></script>
+  <script src="./assets/js/render.js"></script>
+  <script>
+    if (window.renderTools) renderTools('#tools-root');
+  </script>
+</body>
+</html>
