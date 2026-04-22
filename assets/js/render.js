@@ -1,10 +1,29 @@
 (function () {
-  const ROLE_LABEL = {
+  function isEn() {
+    return (document.documentElement.lang || '').toLowerCase().startsWith('en');
+  }
+
+  const ROLE_LABEL_ZH = {
     'first': '第一作者',
     'co-first': '共同第一作者',
     'corresponding': '通讯作者',
     'co-corresponding': '共同通讯作者'
   };
+  const ROLE_LABEL_EN = {
+    'first': 'First Author',
+    'co-first': 'Co-First Author',
+    'corresponding': 'Corresponding Author',
+    'co-corresponding': 'Co-Corresponding Author'
+  };
+  function roleLabel(role) {
+    return (isEn() ? ROLE_LABEL_EN : ROLE_LABEL_ZH)[role];
+  }
+  // Backwards compat: keep ROLE_LABEL (used elsewhere) resolved lazily for pub rendering.
+  const ROLE_LABEL = new Proxy({}, { get: (_, k) => roleLabel(k) });
+
+  function L(zh, en) {
+    return isEn() ? en : zh;
+  }
 
   function escapeHtml(s) {
     return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
@@ -40,13 +59,14 @@
     if (p.type) {
       parts.push('<span class="type-tag type-' + escapeHtml(String(p.type).toLowerCase()) + '">' + escapeHtml(p.type) + '</span>');
     }
-    if (p.role && ROLE_LABEL[p.role]) {
-      parts.push('<span class="role-tag role-' + escapeHtml(p.role) + '">' + ROLE_LABEL[p.role] + '</span>');
+    const rLbl = roleLabel(p.role);
+    if (p.role && rLbl) {
+      parts.push('<span class="role-tag role-' + escapeHtml(p.role) + '">' + rLbl + '</span>');
     }
     if (p.if != null && p.if !== '') parts.push('<span class="meta-if">IF ' + escapeHtml(p.if) + '</span>');
-    if (p.casZone) parts.push('<span class="meta-zone">中科院 ' + escapeHtml(p.casZone) + ' 区</span>');
-    if (p.jcrZone) parts.push('<span class="meta-zone">JCR ' + escapeHtml(p.jcrZone) + ' 区</span>');
-    if (p.isTop) parts.push('<span class="meta-top">Top 期刊</span>');
+    if (p.casZone) parts.push('<span class="meta-zone">' + L('中科院 ' + escapeHtml(p.casZone) + ' 区', 'CAS Tier ' + escapeHtml(p.casZone)) + '</span>');
+    if (p.jcrZone) parts.push('<span class="meta-zone">' + L('JCR ' + escapeHtml(p.jcrZone) + ' 区', 'JCR Q' + escapeHtml(p.jcrZone)) + '</span>');
+    if (p.isTop) parts.push('<span class="meta-top">' + L('Top 期刊', 'Top Journal') + '</span>');
     return '<div class="pub-header">' + parts.join('') + '</div>';
   }
 
@@ -143,15 +163,20 @@
   function renderProjects(selector) {
     const el = document.querySelector(selector);
     if (!el || !Array.isArray(window.__PROJECTS__)) return;
+    const en = isEn();
+    const open = en ? ' (' : '（';
+    const close = en ? ')' : '）';
+    const sep = en ? ', ' : '，';
+    const colon = en ? ': ' : '：';
+    const endP = en ? '.' : '。';
     el.innerHTML = window.__PROJECTS__.map(function (p) {
       const meta = [];
       if (p.period) meta.push(escapeHtml(p.period));
-      if (p.amount) meta.push(escapeHtml(p.amount));
       if (p.status) meta.push(escapeHtml(p.status));
-      const metaStr = meta.length ? '（' + meta.join('，') + '）' : '';
+      const metaStr = meta.length ? open + meta.join(sep) + close : '';
       return '<div class="project-card">' +
-        '<strong>' + escapeHtml(p.title) + '</strong>：' +
-        escapeHtml(p.description) + metaStr + '。' +
+        '<strong>' + escapeHtml(p.title) + '</strong>' + colon +
+        escapeHtml(p.description) + metaStr + endP +
       '</div>';
     }).join('');
   }
@@ -161,10 +186,11 @@
     const el = document.querySelector(selector);
     if (!el || !Array.isArray(window.__AWARDS__)) return;
     const items = opts.limit ? window.__AWARDS__.slice(0, opts.limit) : window.__AWARDS__;
+    const colon = isEn() ? ' — ' : '：';
     el.innerHTML = items.map(function (a) {
       return '<div class="award-item">' +
         '<span class="award-icon">🏅</span>' +
-        '<div class="award-text"><strong>' + escapeHtml(a.year) + '</strong>：' + escapeHtml(a.text) + '</div>' +
+        '<div class="award-text"><strong>' + escapeHtml(a.year) + '</strong>' + colon + escapeHtml(a.text) + '</div>' +
       '</div>';
     }).join('');
   }

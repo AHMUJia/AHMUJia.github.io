@@ -1,0 +1,28 @@
+/**
+ * Education — each item is one institution with degree levels.
+ */
+window.__EDUCATION_VERSION__ = 1;
+window.__EDUCATION__ = [
+  {
+    "institution": "Anhui Medical University (AHMU)",
+    "logo": "assets/img/100ann.png",
+    "logoStyle": "",
+    "levels": [
+      {
+        "degree": "B.S.",
+        "field": "Clinical Medicine",
+        "period": "2010.09 – 2015.06"
+      },
+      {
+        "degree": "M.S.",
+        "field": "Urology",
+        "period": "2015.09 – 2018.06"
+      },
+      {
+        "degree": "Ph.D.",
+        "field": "Urology",
+        "period": "2018.09 – 2021.06"
+      }
+    ]
+  }
+];

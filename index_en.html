@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>孟佳林 - 个人主页</title>
-  <meta name="description" content="孟佳林，医学博士、硕士生导师。安徽医科大学第一附属医院/生命科学学院双聘副教授，泌尿外科医师，聚焦前列腺疾病免疫微环境、多组学与临床转化。">
-  <meta name="keywords" content="个人主页, 临床医学, 泌尿外科, 前列腺炎, 前列腺癌, 多组学, 免疫微环境">
+  <title>Jialin Meng — Homepage</title>
+  <meta name="description" content="Jialin Meng, M.D., Associate Professor at the First Affiliated Hospital of Anhui Medical University and the School of Life Sciences; urologist focused on prostate-disease immunity, multi-omics, and clinical translation.">
+  <meta name="keywords" content="Jialin Meng, Anhui Medical University, urology, prostatitis, prostate cancer, tumor immunology, multi-omics">
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,11 +14,9 @@
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link rel="preconnect" href="https://ka-f.fontawesome.com" crossorigin>
 
-  <!-- Critical local styles first (no external blocking) -->
   <link rel="stylesheet" href="assets/css/font_sans_serif.css">
   <link rel="stylesheet" href="assets/css/theme-luka.css">
 
-  <!-- External CSS loaded non-blocking (media-hack) -->
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
         media="print" onload="this.media='all'">
@@ -32,21 +30,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css">
   </noscript>
 
-  <!-- FontAwesome kit: defer so it doesn't block rendering -->
   <script src="https://kit.fontawesome.com/a860a211d3.js" crossorigin="anonymous" defer></script>
 </head>
 <body class="theme-luka">
   <nav class="top-nav">
     <div class="nav-container">
       <div class="nav-left">
-        <a href="./index.html">Home</a>
-        <a href="./research.html">Research</a>
-        <a href="./publications.html">Publications</a>
-        <a href="./awards.html">Awards</a>
-        <a href="./tools.html">Tools</a>
+        <a href="./index_en.html">Home</a>
+        <a href="./research_en.html">Research</a>
+        <a href="./publications_en.html">Publications</a>
+        <a href="./awards_en.html">Awards</a>
+        <a href="./tools_en.html">Tools</a>
       </div>
       <div class="nav-right">
-        <button class="lang-toggle" onclick="switchLang()" title="Switch to English">EN</button>
+        <button class="lang-toggle" onclick="switchLang()" title="切换到中文">中</button>
         <button id="themeToggle" class="theme-toggle" title="Toggle theme" aria-label="Toggle theme">
           <i class="fa-solid fa-moon"></i>
         </button>
@@ -58,11 +55,11 @@
     <header class="sidebar">
       <div class="profile-card">
         <a class="image avatar">
-          <img src="LXH_9648.jpg" alt="孟佳林">
+          <img src="LXH_9648.jpg" alt="Jialin Meng">
         </a>
 
-        <h1 class="site-name">孟佳林 <span class="site-name-en">Jialin Meng</span></h1>
-        <p class="site-title">医学博士 · 硕士生导师 · 副教授</p>
+        <h1 class="site-name">Jialin Meng <span class="site-name-en">孟佳林</span></h1>
+        <p class="site-title">M.D. · Master's Supervisor · Associate Professor</p>
         <p class="site-email">mengjialin@ahmu.edu.cn</p>
 
         <div class="social-icons">
@@ -74,13 +71,10 @@
         </div>
 
         <div class="visitor-map sidebar-map" id="mmv-slot">
-          <!-- Rendered in an isolated iframe so the map's document.write does NOT block the main page.
-               Also removed entirely on mobile (see inline script below) to save network. -->
           <iframe src="visitor-map.html" class="visitor-map-frame"
                   loading="lazy" frameborder="0" scrolling="no" title="Visitor Map"></iframe>
         </div>
         <script>
-          // On narrow viewports, drop the map iframe before it loads — no wasted requests on mobile.
           (function () {
             if (window.innerWidth <= 640) {
               var slot = document.getElementById('mmv-slot');
@@ -117,7 +111,7 @@
       <div class="section" id="publications">
         <div class="section-head">
           <h2 class="section-title">Publications</h2>
-          <a class="see-all" href="./publications.html">See full list →</a>
+          <a class="see-all" href="./publications_en.html">See full list →</a>
         </div>
         <div class="section-body">
           <div class="publications">
@@ -129,7 +123,7 @@
       <div class="section" id="awards">
         <div class="section-head">
           <h2 class="section-title">Awards</h2>
-          <a class="see-all" href="./awards.html">See full list →</a>
+          <a class="see-all" href="./awards_en.html">See full list →</a>
         </div>
         <div class="section-body">
           <div class="awards-grid" id="awards-body"></div>
@@ -139,7 +133,7 @@
 
     <footer class="site-footer">
       <p>
-        &copy; 2026 孟佳林. All rights reserved.
+        &copy; 2026 Jialin Meng. All rights reserved.
         <br>
         <span class="template-credit"><a href="https://github.com/wzsyyh/luka-homepage-template">Luka Homepage Template</a> by <a href="https://wzsyyh.github.io/">Yuheng Yang</a></span>
       </p>
@@ -148,11 +142,11 @@
 
   <script src="assets/js/lang.js"></script>
   <script src="assets/js/scale.fix.js"></script>
-  <script src="./about-data.js"></script>
-  <script src="./education-data.js"></script>
-  <script src="./experience-data.js"></script>
-  <script src="./projects-data.js"></script>
-  <script src="./awards-data.js"></script>
+  <script src="./about-data_en.js"></script>
+  <script src="./education-data_en.js"></script>
+  <script src="./experience-data_en.js"></script>
+  <script src="./projects-data_en.js"></script>
+  <script src="./awards-data_en.js"></script>
   <script src="./publications-data.js"></script>
   <script src="./assets/js/render.js"></script>
   <script>
@@ -174,7 +168,6 @@
         icon.classList.toggle('fa-moon', !isDark);
       }
 
-      // Follow OS (live)
       const mql = window.matchMedia('(prefers-color-scheme: dark)');
       setTheme(mql.matches);
       if (typeof mql.addEventListener === 'function') {
@@ -183,11 +176,8 @@
         mql.addListener(function (e) { setTheme(e.matches); });
       }
 
-      // Clear stale persisted preference (site now tracks OS)
       try { localStorage.removeItem('theme'); } catch (_) {}
 
-      // Toggle button = temporary override for this page (not persisted,
-      // next OS change or page reload will re-sync).
       themeToggle.addEventListener('click', function() {
         const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
         setTheme(!isDark);

@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>论文｜孟佳林</title>
-  <meta name="description" content="论文与学术成果：前列腺炎、前列腺癌、免疫微环境、多组学与临床转化。">
+  <title>Awards & Honors — Jialin Meng</title>
+  <meta name="description" content="Academic awards, supervisory honors, and volunteer-service recognitions.">
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <script src="https://kit.fontawesome.com/a860a211d3.js" crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/a860a211d3.js" crossorigin="anonymous" defer></script>
 
   <link rel="stylesheet" href="assets/css/font_sans_serif.css">
   <link rel="stylesheet" href="assets/css/theme-luka.css">
@@ -20,14 +20,14 @@
   <nav class="top-nav">
     <div class="nav-container">
       <div class="nav-left">
-        <a href="./index.html">Home</a>
-        <a href="./research.html">Research</a>
-        <a href="./publications.html" class="is-active">Publications</a>
-        <a href="./awards.html">Awards</a>
-        <a href="./tools.html">Tools</a>
+        <a href="./index_en.html">Home</a>
+        <a href="./research_en.html">Research</a>
+        <a href="./publications_en.html">Publications</a>
+        <a href="./awards_en.html" class="is-active">Awards</a>
+        <a href="./tools_en.html">Tools</a>
       </div>
       <div class="nav-right">
-        <button class="lang-toggle" onclick="switchLang()" title="Switch to English">EN</button>
+        <button class="lang-toggle" onclick="switchLang()" title="切换到中文">中</button>
         <button id="themeToggle" class="theme-toggle" title="Toggle theme" aria-label="Toggle theme">
           <i class="fa-solid fa-moon"></i>
         </button>
@@ -36,35 +36,35 @@
   </nav>
 
   <main class="subpage">
-    <h1 class="page-title">Publications</h1>
+    <h1 class="page-title">Awards & Honors</h1>
     <p class="page-lead">
-      论文按年份倒序排列（* 通讯或共同通讯作者）。完整著作及引用信息另见 Google Scholar / ORCID 主页。
+      Includes personal awards and awards received by students under my supervision. Sorted by year (descending).
     </p>
 
-    <div class="publications">
-      <ol class="bibliography" id="pub-list"></ol>
-    </div>
+    <div class="awards-grid" id="awards-body"></div>
   </main>
 
   <footer class="subpage-footer">
     <p>
-      &copy; <span data-year></span> 孟佳林
+      &copy; <span data-year></span> Jialin Meng
       <span class="dot" aria-hidden="true">·</span>
-      <a href="./index.html">主页</a>
+      <a href="./index_en.html">Home</a>
       <span class="dot" aria-hidden="true">·</span>
-      <a href="./research.html">研究</a>
+      <a href="./research_en.html">Research</a>
       <span class="dot" aria-hidden="true">·</span>
-      <a href="./tools.html">工具</a>
+      <a href="./publications_en.html">Publications</a>
+      <span class="dot" aria-hidden="true">·</span>
+      <a href="./tools_en.html">Tools</a>
     </p>
   </footer>
 
   <script src="assets/js/lang.js"></script>
   <script src="assets/js/scale.fix.js"></script>
   <script src="assets/js/theme.js"></script>
-  <script src="./publications-data.js"></script>
+  <script src="./awards-data_en.js"></script>
   <script src="./assets/js/render.js"></script>
   <script>
-    if (window.renderPubs) renderPubs('#pub-list');
+    if (window.renderAwards) renderAwards('#awards-body');
   </script>
 </body>
 </html>

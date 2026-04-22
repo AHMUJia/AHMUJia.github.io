@@ -35,7 +35,7 @@ window.__EXPERIENCE__ = [
         "period": "2021.07 – 至今"
       },
       {
-        "detail": "团委 · 副书记（兼职）",
+        "detail": "团委 · 副书记",
         "period": "2024.01 – 至今"
       }
     ]

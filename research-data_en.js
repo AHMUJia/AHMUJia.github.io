@@ -1,0 +1,38 @@
+/**
+ * Research topics — each item: { name, title, points[] } (HTML allowed in points).
+ */
+window.__RESEARCH_VERSION__ = 2;
+window.__RESEARCH__ = [
+  {
+    "name": "CP/CPPS",
+    "title": "Chronic Prostatitis / Chronic Pelvic Pain Syndrome (CP/CPPS)",
+    "image": "assets/img/research/cp-cpps.svg",
+    "points": [
+      "Single-cell sequencing and functional immunophenotyping to characterize immune dysregulation maps, proinflammatory T-cell signatures, and CD8⁺ TEMRA-driven inflammatory features.",
+      "Immune–stromal / inflammatory pathway–oriented target discovery, including the HA/CD44–Annexin A1/Akt/mTOR axis.",
+      "Metabolomic patient stratification and nomogram-based treatment-response prediction supporting individualized therapy.",
+      "Identification of dietary and lipid risk patterns in population cohorts, bridging nutrition and inflammation."
+    ]
+  },
+  {
+    "name": "Prostate Cancer",
+    "title": "Prostate Cancer (PCa) and the Tumor Immune Microenvironment",
+    "image": "assets/img/research/pca.svg",
+    "points": [
+      "Systematic analysis of the tumor immune microenvironment and immune-related stratification frameworks linking activation/suppression patterns to prognosis and immunotherapy/chemotherapy benefit.",
+      "Multi-omics subtyping and prediction systems that support precision risk stratification and treatment selection (including AR-signaling-inhibitor decisions).",
+      "Prognostic nomograms (immune infiltration, coagulation factors, population-based survival) designed for clinical interpretability.",
+      "Biology of therapy resistance and advanced disease; pathway blockade strategies that remodel the immunosuppressive microenvironment."
+    ]
+  },
+  {
+    "name": "Translation",
+    "title": "Clinical Translation and Real-World Evidence",
+    "image": "assets/img/research/translation.svg",
+    "points": [
+      "Integrated use of multi-omics, Mendelian randomization, and meta-analysis to build a closed loop from mechanism to evidence.",
+      "Focus on the \"gut–prostate axis\" and sex hormone / blood metabolite / protein mediators, extending the understanding of inflammatory prostatic diseases.",
+      "Real-world evidence on urology-related treatments (e.g., anti-androgen therapy) during the COVID-19 pandemic."
+    ]
+  }
+];

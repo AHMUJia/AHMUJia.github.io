@@ -1,0 +1,30 @@
+/**
+ * Projects (基金项目).
+ */
+window.__PROJECTS_VERSION__ = 1;
+window.__PROJECTS__ = [
+  {
+    "title": "Natural Science Research of Anhui Province Universities for Excellent Young Scholars (No. 2024AH030030)",
+    "description": "Molecular mechanisms and clinical translation: high-fat diet and lipid-metabolism regulation in chronic non-bacterial prostatitis",
+    "period": "2025.01–2027.12",
+    "status": "Ongoing"
+  },
+  {
+    "title": "National Natural Science Foundation (No. 82200860)",
+    "description": "Mechanistic study: high-fat diet promotes Th17 cell differentiation via the DJ-1/STAT3 axis and exacerbates CNP",
+    "period": "2023.01–2025.12",
+    "status": "Completed"
+  },
+  {
+    "title": "Anhui Provincial Natural Science Foundation — Youth Program (No. 2208085QH239)",
+    "description": "Mechanistic study: IGF1/IGF1R axis activates PKC-β to drive Th17 differentiation in chronic non-bacterial prostatitis",
+    "period": "2022.01–2023.12",
+    "status": "Completed"
+  },
+  {
+    "title": "Anhui Higher Education Research Key Project (No. 2022AH051133)",
+    "description": "Mechanistic study: lipoprotein(a) regulates M1-macrophage differentiation and promotes chronic non-bacterial prostatitis",
+    "period": "2023.01–2024.12",
+    "status": "Completed"
+  }
+];

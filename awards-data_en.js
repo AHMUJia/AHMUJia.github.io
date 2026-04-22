@@ -1,0 +1,46 @@
+/**
+ * Awards — each item: { year, text (HTML allowed) }.
+ */
+window.__AWARDS_VERSION__ = 1;
+window.__AWARDS__ = [
+  {
+    "year": "2026",
+    "text": "Bronze Award — 2nd National \"ChuangQingChun\" Healthcare Industry Youth Innovation Competition."
+  },
+  {
+    "year": "2024",
+    "text": "Silver Award — 7th China Youth Volunteer Service Project Competition; Silver Award — 4th National Healthcare Industry Youth Volunteer Service Competition; First Prize — 1st Anhui Healthcare System Youth Volunteer Service Competition; Bronze Award — 7th Anhui Youth Volunteer Service Project Competition."
+  },
+  {
+    "year": "2024",
+    "text": "As supervisor: Third Prize at the National College Student Innovation and Invention Competition; Outstanding Award at the 10th National Finals of the Youth Science Popularization Innovation Experiment and Works Competition."
+  },
+  {
+    "year": "2023",
+    "text": "\"Outstanding Class Advisor\", Anhui Medical University."
+  },
+  {
+    "year": "2023",
+    "text": "As supervisor: National First Prize (Innovation Group), 8th National College Student Life Sciences Competition."
+  },
+  {
+    "year": "2022",
+    "text": "\"FuYuan Science and Technology Rising Star\", Anhui Medical University."
+  },
+  {
+    "year": "2022",
+    "text": "As supervisor: National Bronze Award, 8th China International \"Internet+\" College Student Innovation and Entrepreneurship Competition."
+  },
+  {
+    "year": "2022",
+    "text": "The \"Dot of Starlight — Rural Tour of Children's Sexual Education\" project won the Anhui Provincial Gold Award in the \"Youth Red Dream Journey\" track of the 8th Anhui \"Internet+\" College Student Innovation and Entrepreneurship Competition."
+  },
+  {
+    "year": "2021",
+    "text": "As supervisor: \"Yikang — Pioneering Sealed Sterile Catheterization and Bladder Irrigation Device\" won the Anhui Provincial Silver Award (Higher-Education Track), 7th Anhui \"Internet+\" Competition."
+  },
+  {
+    "year": "2020",
+    "text": "Graduate Student \"Top-10 Academic Rising Star\", Anhui Medical University."
+  }
+];

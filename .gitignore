@@ -1,6 +1,8 @@
 # admin 编辑器只在本地使用，不发布
 admin.html
+admin_en.html
 assets/js/admin.js
+assets/css/admin.css
 
 # 临时脚本
 _*.py

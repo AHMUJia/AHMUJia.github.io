@@ -186,6 +186,32 @@ body.theme-luka .theme-toggle:hover {
   color: var(--luka-accent);
 }
 
+body.theme-luka .lang-toggle {
+  border: 1px solid var(--luka-border);
+  background: transparent;
+  color: var(--luka-text);
+  padding: 4px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  font-family: inherit;
+  margin-right: 8px;
+}
+
+body.theme-luka .lang-toggle:hover {
+  background: var(--luka-accent);
+  color: #fff;
+  border-color: var(--luka-accent);
+}
+
+body.theme-luka .nav-right {
+  display: flex;
+  align-items: center;
+}
+
 /* ============ Layout ============ */
 body.theme-luka .wrapper {
   width: 100%;
