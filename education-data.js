@@ -5,8 +5,8 @@ window.__EDUCATION_VERSION__ = 1;
 window.__EDUCATION__ = [
   {
     "institution": "安徽医科大学 · Anhui Medical University",
-    "logo": "assets/img/ahmu-real.svg",
-    "logoStyle": "on-ahmu-red",
+    "logo": "assets/img/100ann.png",
+    "logoStyle": "",
     "levels": [
       {
         "degree": "学士 B.S.",
