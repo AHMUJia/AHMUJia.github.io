@@ -320,7 +320,12 @@
     const photo = member.photo
       ? el('img', {src: member.photo, alt: name})
       : el('span', null, (name || '?').slice(0, 1));
-    return el('div', {class: 'team-mini-card'},
+    const card = el('div', {
+      class: 'team-mini-card',
+      draggable: 'true',
+      title: '拖动可调整顺序（同类别内）'
+    },
+      el('div', {class: 'drag-handle', title: '拖动'}, '⋮⋮'),
       el('div', {class: 'team-mini-photo'}, photo),
       el('div', {class: 'team-mini-body'},
         el('p', {class: 'team-mini-name'}, name),
@@ -331,6 +336,86 @@
         el('button', {class: 'btn-danger', onclick: () => deleteMember(main, member, team)}, '删除')
       )
     );
+    card.dataset.slug = member.slug;
+    card.dataset.role = member.role;
+    attachTeamCardDnD(card, member, team, main);
+    return card;
+  }
+
+  /* HTML5 drag-drop on a team mini-card. Only reorders within the same role.
+     Drop on the LEFT half of a target card → insert BEFORE it.
+     Drop on the RIGHT half → insert AFTER it (so you can move a card to the end). */
+  function attachTeamCardDnD(card, member, team, main) {
+    /* Don't initiate drag if mousedown started on a button (so 编辑/删除 still work) */
+    card.addEventListener('mousedown', (e) => {
+      if (e.target.closest('button')) {
+        card.draggable = false;
+        /* Restore right after the click finishes */
+        setTimeout(() => { card.draggable = true; }, 0);
+      }
+    });
+
+    card.addEventListener('dragstart', (e) => {
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/plain', member.slug);
+      card.classList.add('is-dragging');
+    });
+    card.addEventListener('dragend', () => {
+      card.classList.remove('is-dragging');
+      document.querySelectorAll('.team-mini-card.drag-over-left, .team-mini-card.drag-over-right')
+        .forEach(c => c.classList.remove('drag-over-left', 'drag-over-right'));
+    });
+    card.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      const rect = card.getBoundingClientRect();
+      const isAfter = e.clientX > rect.left + rect.width / 2;
+      card.classList.toggle('drag-over-left',  !isAfter);
+      card.classList.toggle('drag-over-right',  isAfter);
+    });
+    card.addEventListener('dragleave', () => {
+      card.classList.remove('drag-over-left', 'drag-over-right');
+    });
+    card.addEventListener('drop', async (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const fromSlug = e.dataTransfer.getData('text/plain');
+      const toSlug = member.slug;
+      const rect = card.getBoundingClientRect();
+      const isAfter = e.clientX > rect.left + rect.width / 2;
+      card.classList.remove('drag-over-left', 'drag-over-right');
+      if (!fromSlug || fromSlug === toSlug) return;
+
+      const fromIdx = team.findIndex(m => m.slug === fromSlug);
+      const toIdx   = team.findIndex(m => m.slug === toSlug);
+      if (fromIdx < 0 || toIdx < 0) return;
+      /* same role only */
+      if (team[fromIdx].role !== team[toIdx].role) {
+        flashTransient('只能在同一类别（Co-PI / PhD / Master / UG）内调整顺序', 'err');
+        return;
+      }
+
+      const [moved] = team.splice(fromIdx, 1);
+      const targetIdx = team.findIndex(m => m.slug === toSlug);
+      team.splice(targetIdx + (isAfter ? 1 : 0), 0, moved);
+
+      try {
+        await api('PUT', '/api/data/team', team);
+        await renderTeamTab(main);
+      } catch (err) {
+        flashTransient('保存失败：' + err.message, 'err');
+      }
+    });
+  }
+
+  /* Tiny floating toast for drag/drop feedback. Auto-dismisses. */
+  function flashTransient(text, kind) {
+    const t = el('div', {
+      class: 'toast ' + (kind === 'err' ? 'toast-err' : 'toast-ok')
+    }, text);
+    document.body.appendChild(t);
+    setTimeout(() => { t.classList.add('toast-fade'); }, 1500);
+    setTimeout(() => { t.remove(); }, 2200);
   }
 
   async function deleteMember(main, member, team) {

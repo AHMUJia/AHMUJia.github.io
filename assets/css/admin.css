@@ -270,6 +270,45 @@ body.admin-body {
 .team-mini-actions button:hover { border-color: var(--luka-accent); color: var(--luka-accent); }
 .team-mini-actions .btn-danger { border-color: rgba(196, 61, 61, 0.32); color: #c43d3d; }
 
+/* Drag handle + dragging visual states */
+.team-mini-card[draggable="true"] { cursor: grab; }
+.team-mini-card[draggable="true"]:active { cursor: grabbing; }
+.team-mini-card .drag-handle {
+  flex-shrink: 0;
+  font-size: 16px;
+  color: var(--luka-muted);
+  letter-spacing: -2px;
+  user-select: none;
+  padding: 0 2px;
+}
+.team-mini-card.is-dragging {
+  opacity: 0.35;
+}
+.team-mini-card.drag-over-left {
+  box-shadow: -4px 0 0 0 var(--luka-accent), 0 1px 4px var(--luka-shadow);
+}
+.team-mini-card.drag-over-right {
+  box-shadow: 4px 0 0 0 var(--luka-accent), 0 1px 4px var(--luka-shadow);
+}
+
+/* Tiny toast (used for drag rejection / save errors) */
+.toast {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-size: 13.5px;
+  font-weight: 600;
+  z-index: 9999;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.toast-ok  { background: #2ea043; color: #fff; }
+.toast-err { background: #c43d3d; color: #fff; }
+.toast-fade { opacity: 0; transform: translate(-50%, 8px); }
+
 /* ============ Forms ============ */
 .admin-form { display: flex; flex-direction: column; gap: 18px; max-width: 980px; }
 .form-row {
