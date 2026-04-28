@@ -1,0 +1,676 @@
+/* ============================================================
+   UroExplorer admin panel styling
+   Reuses theme-luka.css for color variables. Layout below is
+   admin-specific (wider content area, table-like forms, etc.)
+   ============================================================ */
+
+body.admin-body {
+  background: var(--luka-bg);
+  color: var(--luka-text);
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 14.5px;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.admin-loading,
+.admin-fatal {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--luka-muted);
+  font-size: 16px;
+  gap: 14px;
+}
+.admin-fatal h1 { color: var(--luka-text); margin: 0; }
+
+/* ============ Login ============ */
+.login-shell {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.login-form {
+  width: 100%;
+  max-width: 360px;
+  background: var(--luka-surface);
+  border: 1px solid var(--luka-border);
+  border-radius: 14px;
+  padding: 32px 28px 24px;
+  box-shadow: 0 6px 24px var(--luka-shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.login-form h1 { margin: 0 0 4px; font-size: 22px; color: var(--luka-accent); }
+.login-form .login-sub { margin: 0 0 8px; color: var(--luka-muted); font-size: 13.5px; }
+.login-form label { display: flex; flex-direction: column; gap: 4px; font-size: 13px; color: var(--luka-muted); }
+.login-form input {
+  padding: 9px 12px;
+  border: 1px solid var(--luka-border);
+  border-radius: 8px;
+  background: var(--luka-bg);
+  color: var(--luka-text);
+  font: inherit;
+}
+.login-form input:focus {
+  outline: 2px solid var(--luka-accent-soft);
+  outline-offset: 1px;
+  border-color: var(--luka-accent);
+}
+.login-form .login-error {
+  min-height: 18px;
+  color: #c43d3d;
+  font-size: 13px;
+}
+
+/* ============ Buttons ============ */
+.btn-primary {
+  padding: 10px 16px;
+  background: var(--luka-accent);
+  color: #fff;
+  border: 1px solid var(--luka-accent);
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.btn-primary:hover { background: var(--luka-accent-hover); }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn-ghost {
+  padding: 8px 14px;
+  background: transparent;
+  color: var(--luka-text);
+  border: 1px solid var(--luka-border);
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 500;
+}
+.btn-ghost:hover { border-color: var(--luka-accent); color: var(--luka-accent); }
+
+.btn-link {
+  padding: 6px 10px;
+  background: transparent;
+  color: var(--luka-muted);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font: inherit;
+  text-decoration: none;
+}
+.btn-link:hover { color: var(--luka-accent); }
+
+.btn-danger {
+  padding: 6px 12px;
+  background: transparent;
+  color: #c43d3d;
+  border: 1px solid rgba(196, 61, 61, 0.32);
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 13px;
+}
+.btn-danger:hover { background: #c43d3d; color: #fff; }
+
+/* ============ Dashboard shell ============ */
+.admin-shell { min-height: 100vh; display: flex; flex-direction: column; }
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 24px;
+  background: var(--luka-surface);
+  border-bottom: 1px solid var(--luka-footer-border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.admin-header-left { display: flex; align-items: baseline; gap: 14px; }
+.admin-brand { margin: 0; font-size: 17px; color: var(--luka-accent); }
+.admin-role-badge { font-size: 12px; color: var(--luka-muted); }
+.admin-header-right { display: flex; gap: 4px; align-items: center; }
+
+.admin-body-content {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  flex: 1;
+  min-height: 0;
+}
+.admin-tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 16px 8px;
+  background: var(--luka-surface);
+  border-right: 1px solid var(--luka-border);
+}
+.admin-tab {
+  text-align: left;
+  padding: 8px 14px;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--luka-text);
+  font: inherit;
+  font-size: 14px;
+}
+.admin-tab:hover { background: var(--luka-bg); color: var(--luka-accent); }
+.admin-tab.is-active {
+  background: var(--luka-accent);
+  color: #fff;
+  font-weight: 600;
+}
+
+.admin-main {
+  padding: 28px 32px;
+  overflow-x: auto;
+  min-height: 0;
+}
+.admin-main h2 {
+  margin: 0 0 16px;
+  font-size: 20px;
+  color: var(--luka-accent);
+  border-bottom: 2px solid var(--luka-accent);
+  padding-bottom: 8px;
+  display: inline-block;
+}
+.admin-main .panel-toolbar {
+  margin: 0 0 16px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.admin-main .muted { color: var(--luka-muted); font-size: 13px; }
+.admin-main .ok-flash {
+  display: inline-block;
+  padding: 4px 10px;
+  background: rgba(46, 160, 67, 0.12);
+  color: #2ea043;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 600;
+}
+.admin-main .err-flash {
+  display: inline-block;
+  padding: 4px 10px;
+  background: rgba(196, 61, 61, 0.12);
+  color: #c43d3d;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 600;
+  white-space: pre-wrap;
+}
+
+.loading-spinner {
+  padding: 40px 0;
+  text-align: center;
+  color: var(--luka-muted);
+}
+
+/* ============ Team list (admin) ============ */
+.team-section { margin-bottom: 32px; }
+.team-section h3 {
+  margin: 0 0 12px;
+  font-size: 15px;
+  color: var(--luka-accent);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.team-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+}
+.team-mini-card {
+  background: var(--luka-surface);
+  border: 1px solid var(--luka-border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 1px 4px var(--luka-shadow);
+}
+.team-mini-photo {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--luka-bg);
+  border: 1px solid var(--luka-border);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--luka-accent);
+}
+.team-mini-photo img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+.team-mini-body { flex: 1; min-width: 0; }
+.team-mini-name { margin: 0 0 2px; font-size: 14.5px; font-weight: 600; }
+.team-mini-meta { margin: 0; font-size: 12px; color: var(--luka-muted); }
+.team-mini-actions { display: flex; flex-direction: column; gap: 4px; }
+.team-mini-actions button {
+  padding: 4px 10px;
+  font-size: 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid var(--luka-border);
+  background: transparent;
+  color: var(--luka-text);
+}
+.team-mini-actions button:hover { border-color: var(--luka-accent); color: var(--luka-accent); }
+.team-mini-actions .btn-danger { border-color: rgba(196, 61, 61, 0.32); color: #c43d3d; }
+
+/* ============ Forms ============ */
+.admin-form { display: flex; flex-direction: column; gap: 18px; max-width: 980px; }
+.form-row {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 16px;
+  align-items: start;
+}
+.form-row > label {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--luka-text);
+  padding-top: 9px;
+}
+.form-row > .field {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.form-row .field-hint { font-size: 12px; color: var(--luka-muted); line-height: 1.55; }
+.form-row .field-error { font-size: 12.5px; color: #c43d3d; }
+
+.form-input,
+.form-textarea,
+.form-select {
+  width: 100%;
+  padding: 8px 11px;
+  border: 1px solid var(--luka-border);
+  border-radius: 7px;
+  background: var(--luka-bg);
+  color: var(--luka-text);
+  font: inherit;
+  font-size: 14px;
+}
+.form-textarea {
+  font-family: "Ubuntu Mono", "SFMono-Regular", monospace;
+  font-size: 13px;
+  resize: vertical;
+  min-height: 80px;
+}
+.form-textarea.json-textarea { min-height: 140px; }
+.form-input:focus, .form-textarea:focus, .form-select:focus {
+  outline: 2px solid var(--luka-accent-soft);
+  outline-offset: 1px;
+  border-color: var(--luka-accent);
+}
+.form-input[readonly], .form-input:disabled {
+  opacity: 0.7;
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.form-row.bilingual .field {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  align-items: start;
+}
+.form-row.bilingual .lang-pair {
+  display: flex; flex-direction: column; gap: 3px;
+}
+.form-row.bilingual .lang-tag {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--luka-muted);
+  letter-spacing: 0.06em;
+}
+
+.photo-row .field { display: grid; grid-template-columns: 130px 1fr; gap: 16px; align-items: center; }
+.photo-preview {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: var(--luka-bg);
+  border: 1px solid var(--luka-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  color: var(--luka-muted);
+  overflow: hidden;
+}
+.photo-preview img { width: 100%; height: 100%; object-fit: cover; }
+.photo-controls { display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
+
+.form-actions {
+  position: sticky;
+  bottom: 0;
+  background: linear-gradient(to top, var(--luka-bg) 60%, rgba(0,0,0,0));
+  padding: 16px 0 8px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  border-top: 1px solid var(--luka-border);
+}
+
+/* ============ Users table ============ */
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--luka-surface);
+  border: 1px solid var(--luka-border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.users-table th, .users-table td {
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--luka-border);
+  font-size: 14px;
+}
+.users-table th {
+  background: var(--luka-bg);
+  font-weight: 600;
+  font-size: 12.5px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--luka-muted);
+}
+.users-table tr:last-child td { border-bottom: none; }
+.role-pill {
+  display: inline-block;
+  padding: 2px 9px;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 999px;
+  background: var(--luka-bg);
+  color: var(--luka-accent);
+  border: 1px solid var(--luka-border);
+}
+
+/* ============ JSON section editor ============ */
+.bilingual-json {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.bilingual-json > div { display: flex; flex-direction: column; gap: 4px; }
+.bilingual-json .lang-tag {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--luka-muted);
+  letter-spacing: 0.06em;
+}
+
+/* ============ Modal-ish dialog (used by confirm + new user) ============ */
+.dialog-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(15, 25, 27, 0.45);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 100;
+  padding: 20px;
+}
+.dialog-box {
+  background: var(--luka-surface);
+  border: 1px solid var(--luka-border);
+  border-radius: 14px;
+  padding: 24px 26px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.25);
+  max-width: 460px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.dialog-box h3 { margin: 0; color: var(--luka-accent); }
+.dialog-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 8px; }
+
+/* ============ Visual list editor (Phase 4c) ============ */
+.list-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.list-item-card {
+  background: var(--luka-surface);
+  border: 1px solid var(--luka-border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.list-item-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  background: var(--luka-bg);
+  border-bottom: 1px solid var(--luka-border);
+}
+.list-item-num {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--luka-accent);
+  flex-shrink: 0;
+}
+.list-item-summary {
+  flex: 1;
+  font-size: 13px;
+  color: var(--luka-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+.list-item-actions {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.icon-btn {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  background: transparent;
+  border: 1px solid var(--luka-border);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--luka-text);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.icon-btn:hover { border-color: var(--luka-accent); color: var(--luka-accent); }
+.icon-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+.icon-btn-danger { color: #c43d3d; border-color: rgba(196, 61, 61, 0.32); }
+.icon-btn-danger:hover { background: #c43d3d; color: #fff; border-color: #c43d3d; }
+
+.list-item-body {
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Sub-row inside a list item card (more compact than top-level form-row) */
+.sub-row {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 12px;
+  align-items: start;
+}
+.sub-row > label {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--luka-text);
+  padding-top: 7px;
+}
+.sub-ctrl {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Bilingual two-column inputs inside list-item rows */
+.bilingual-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.bilingual-inputs > div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.bilingual-inputs .lang-tag {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--luka-muted);
+  letter-spacing: 0.06em;
+}
+
+.checkbox-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+  color: var(--luka-text);
+  cursor: pointer;
+}
+.checkbox-label input[type=checkbox] { width: 16px; height: 16px; cursor: pointer; }
+
+.btn-add {
+  align-self: flex-start;
+  padding: 6px 14px;
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+/* Nested list inside a list item gets a thin left border for hierarchy */
+.list-item-body .list-editor {
+  border-left: 2px solid var(--luka-border);
+  padding-left: 10px;
+  margin-left: 2px;
+}
+
+/* Toolbar above a list editor (e.g. paste-and-parse for publications) */
+.list-editor-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+.btn-small { padding: 4px 12px; font-size: 12.5px; }
+
+/* Image field row inside list-item rows: thumb + path + buttons */
+.image-field-row {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.image-thumb {
+  width: 64px;
+  height: 64px;
+  border-radius: 8px;
+  background: var(--luka-bg);
+  border: 1px solid var(--luka-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  color: var(--luka-muted);
+  flex-shrink: 0;
+  overflow: hidden;
+}
+.image-thumb img { width: 100%; height: 100%; object-fit: contain; padding: 2px; box-sizing: border-box; }
+.image-field-controls { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+.image-field-buttons { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; font-size: 12.5px; }
+
+/* Language sub-tabs (zh / en) inside section panels */
+.lang-subtabs {
+  display: flex;
+  gap: 6px;
+  margin: 8px 0 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--luka-border);
+}
+.lang-subtab {
+  padding: 6px 14px;
+  background: transparent;
+  color: var(--luka-text);
+  border: 1px solid var(--luka-border);
+  border-radius: 8px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+}
+.lang-subtab:hover { border-color: var(--luka-accent); color: var(--luka-accent); }
+.lang-subtab.is-active {
+  background: var(--luka-accent);
+  color: #fff;
+  border-color: var(--luka-accent);
+}
+
+/* Reference parse dialog */
+.parse-preview {
+  margin-top: 12px;
+  padding: 12px 14px;
+  background: var(--luka-bg);
+  border: 1px solid var(--luka-border);
+  border-radius: 8px;
+}
+.parse-dl { margin: 0; font-size: 13px; }
+.parse-dl dt {
+  font-weight: 700;
+  color: var(--luka-accent);
+  margin-top: 8px;
+  font-family: "Ubuntu Mono", "SFMono-Regular", monospace;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.parse-dl dt:first-child { margin-top: 0; }
+.parse-dl dd { margin: 2px 0 0; padding-left: 0; line-height: 1.55; }
+.dialog-wide { max-width: 640px !important; }
+
+/* Team page heading editor card */
+.team-meta-card {
+  background: var(--luka-surface);
+  border: 1px solid var(--luka-border);
+  border-radius: 12px;
+  padding: 18px 22px;
+  margin-bottom: 6px;
+  box-shadow: 0 2px 10px var(--luka-shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ============ Responsive ============ */
+@media (max-width: 880px) {
+  .admin-body-content { grid-template-columns: 1fr; }
+  .admin-tabs { flex-direction: row; flex-wrap: wrap; border-right: none; border-bottom: 1px solid var(--luka-border); }
+  .form-row { grid-template-columns: 1fr; gap: 6px; }
+  .form-row > label { padding-top: 0; }
+  .form-row.bilingual .field { grid-template-columns: 1fr; }
+  .bilingual-json { grid-template-columns: 1fr; }
+  .photo-row .field { grid-template-columns: 1fr; }
+  .sub-row { grid-template-columns: 1fr; gap: 4px; }
+  .bilingual-inputs { grid-template-columns: 1fr; }
+  .list-item-summary { white-space: normal; }
+}

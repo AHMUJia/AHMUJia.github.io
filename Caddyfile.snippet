@@ -1,0 +1,29 @@
+# 把这一段【追加】到 /opt/papertracker/Caddyfile 末尾。
+# 你现有的那段 papertracker.mengjialin.top { ... } 不要动。
+#
+# 前提：
+#   - /opt/mengjialin-site 已克隆好且挂到了 Caddy 容器的 /srv/mengjialin
+#     （由 docker-compose.blog.yml 的 caddy.volumes 叠加完成）
+#   - uroexplorer-admin 容器跑起来且和 caddy 同在 papertracker_default network
+
+mengjialin.top, www.mengjialin.top {
+    encode zstd gzip
+
+    # /api/* → 后端
+    handle /api/* {
+        reverse_proxy uroexplorer-admin:3000
+    }
+
+    # 其它都走静态
+    handle {
+        root * /srv/mengjialin
+        try_files {path} {path}.html
+        file_server
+    }
+
+    # 防御性：服务器后端目录别被 Caddy serve 出去（虽然不在 /srv/mengjialin 下）
+    @hidden path /server/* /admin/data/*
+    handle @hidden {
+        respond 404
+    }
+}

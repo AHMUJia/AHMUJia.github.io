@@ -1,8 +1,5 @@
-# admin 编辑器只在本地使用，不发布
-admin.html
-admin_en.html
-assets/js/admin.js
-assets/css/admin.css
+# （旧版本号：本地 admin 工具忽略规则已移除——新的 admin 是网页编辑器，
+#  必须发布到 server。如果 admin_en.html 没建过就不存在，被列也无害。）
 
 # 临时脚本
 _*.py
@@ -20,3 +17,15 @@ Thumbs.db
 .idea/
 .vscode/
 *.swp
+
+# 后端服务
+server/node_modules/
+server/data/
+server/package-lock.json
+
+# 部署密钥/.env
+.env
+.env.*
+
+# 上传的成员照片（admin 页生成的，不进 git，避免 git pull 把 server 改的覆盖）
+assets/img/team/

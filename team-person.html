@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Jialin Meng — Homepage</title>
-  <meta name="description" content="Jialin Meng, M.D., Associate Professor at the First Affiliated Hospital of Anhui Medical University and the School of Life Sciences; urologist focused on prostate-disease immunity, multi-omics, and clinical translation.">
-  <meta name="keywords" content="Jialin Meng, Anhui Medical University, urology, prostatitis, prostate cancer, tumor immunology, multi-omics">
+  <title>UroExplorer · 孟佳林课题组</title>
+  <meta name="description" content="孟佳林课题组团队成员个人主页。">
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 
   <link rel="preconnect" href="https://fonts.googleapis.cn">
@@ -15,6 +14,7 @@
 
   <link rel="stylesheet" href="assets/css/font_sans_serif.css">
   <link rel="stylesheet" href="assets/css/theme-luka.css">
+  <link rel="stylesheet" href="assets/css/theme-roles.css">
 
   <link rel="stylesheet"
         href="https://fonts.googleapis.cn/css2?family=Inter:wght@300;400;500;600;700&display=swap"
@@ -35,15 +35,15 @@
   <nav class="top-nav">
     <div class="nav-container">
       <div class="nav-left">
-        <a href="./index_en.html">Home</a>
-        <a href="./research_en.html">Research</a>
-        <a href="./publications_en.html">Publications</a>
-        <a href="./awards_en.html">Awards</a>
-        <a href="./tools_en.html">Tools</a>
-        <a href="./team_en.html">UroExplorer</a>
+        <a href="./index.html">Home</a>
+        <a href="./research.html">Research</a>
+        <a href="./publications.html">Publications</a>
+        <a href="./awards.html">Awards</a>
+        <a href="./tools.html">Tools</a>
+        <a href="./team.html" class="is-active">UroExplorer</a>
       </div>
       <div class="nav-right">
-        <button class="lang-toggle" onclick="switchLang()" title="切换到中文">中</button>
+        <button class="lang-toggle" onclick="switchLang()" title="Switch to English">EN</button>
         <button id="themeToggle" class="theme-toggle" title="Toggle theme" aria-label="Toggle theme">
           <i class="fa-solid fa-moon"></i>
         </button>
@@ -55,39 +55,20 @@
     <header class="sidebar">
       <div class="profile-card">
         <a class="image avatar">
-          <img src="LXH_9648.jpg" alt="Jialin Meng">
+          <img id="person-photo" src="" alt="">
         </a>
-
-        <h1 class="site-name">Jialin Meng <span class="site-name-en">孟佳林</span></h1>
-        <p class="site-title">M.D. · Master's Supervisor · Associate Professor</p>
-        <p class="site-email">mengjialin@ahmu.edu.cn</p>
-
-        <div class="social-icons">
-          <a href="mailto:mengjialin@ahmu.edu.cn" title="Email"><i class="fa-solid fa-envelope"></i></a>
-          <a href="https://scholar.google.com/citations?user=nAV56NsAAAAJ&hl=en" target="_blank" rel="noopener" title="Google Scholar"><i class="ai ai-google-scholar"></i></a>
-          <a href="https://orcid.org/0000-0002-4622-833X" target="_blank" rel="noopener" title="ORCID"><i class="fa-brands fa-orcid"></i></a>
-          <a href="https://www.researchgate.net/profile/Jialin-Meng" target="_blank" rel="noopener" title="ResearchGate"><i class="fa-brands fa-researchgate"></i></a>
-          <a href="https://github.com/AHMUJia" target="_blank" rel="noopener" title="GitHub"><i class="fa-brands fa-github"></i></a>
-        </div>
-
-        <div class="visitor-map sidebar-map" id="mmv-slot">
-          <iframe src="visitor-map.html" class="visitor-map-frame"
-                  loading="lazy" frameborder="0" scrolling="no" title="Visitor Map"></iframe>
-        </div>
-        <script>
-          (function () {
-            if (window.innerWidth <= 640) {
-              var slot = document.getElementById('mmv-slot');
-              if (slot) slot.remove();
-            }
-          })();
-        </script>
+        <h1 class="site-name" id="person-name"></h1>
+        <p class="site-title" id="person-title"></p>
+        <p class="site-affil" id="person-affil"></p>
+        <p class="site-email" id="person-email"></p>
+        <div class="social-icons" id="person-socials"></div>
+        <a class="back-to-team" href="./team.html">← UroExplorer</a>
       </div>
     </header>
 
     <section class="content">
       <div class="section" id="about">
-        <h2 class="section-title">About Me</h2>
+        <h2 class="section-title">About</h2>
         <div class="section-body" id="about-body"></div>
       </div>
 
@@ -109,10 +90,7 @@
       </div>
 
       <div class="section" id="publications">
-        <div class="section-head">
-          <h2 class="section-title">Publications</h2>
-          <a class="see-all" href="./publications_en.html">See full list →</a>
-        </div>
+        <h2 class="section-title">Publications</h2>
         <div class="section-body">
           <div class="publications">
             <ol class="bibliography" id="pub-list"></ol>
@@ -121,10 +99,7 @@
       </div>
 
       <div class="section" id="awards">
-        <div class="section-head">
-          <h2 class="section-title">Awards</h2>
-          <a class="see-all" href="./awards_en.html">See full list →</a>
-        </div>
+        <h2 class="section-title">Awards</h2>
         <div class="section-body">
           <div class="awards-grid" id="awards-body"></div>
         </div>
@@ -133,56 +108,60 @@
 
     <footer class="site-footer">
       <p>
-        &copy; 2026 Jialin Meng. All rights reserved.
+        &copy; 2026 <a href="./team.html">孟佳林课题组</a>. All rights reserved.
         <br>
         <span class="template-credit"><a href="https://github.com/wzsyyh/luka-homepage-template">Luka Homepage Template</a> by <a href="https://wzsyyh.github.io/">Yuheng Yang</a></span>
       </p>
     </footer>
   </div>
 
+  <a href="./admin.html" class="edit-this-page" id="edit-this-page" hidden>
+    <i class="fa-solid fa-pen-to-square"></i> 编辑此页
+  </a>
+
   <script src="assets/js/lang.js"></script>
-  <script src="assets/js/scale.fix.js"></script>
-  <script src="./about-data_en.js"></script>
-  <script src="./education-data_en.js"></script>
-  <script src="./experience-data_en.js"></script>
-  <script src="./projects-data_en.js"></script>
-  <script src="./awards-data_en.js"></script>
-  <script src="./publications-data.js"></script>
+  <script src="./team-data.js"></script>
   <script src="./assets/js/render.js"></script>
+  <script src="./assets/js/team.js"></script>
+  <script>renderTeamPerson();</script>
   <script>
-    if (window.renderAbout)      renderAbout('#about-body');
-    if (window.renderEducation)  renderEducation('#edu-body');
-    if (window.renderExperience) renderExperience('#exp-list');
-    if (window.renderProjects)   renderProjects('#projects-body');
-    if (window.renderAwards)     renderAwards('#awards-body', { limit: 5 });
-    if (window.renderPubs)       renderPubs('#pub-list',    { limit: 5 });
+    /* Show "Edit this page" button when the visitor is logged in as admin
+       or as the member that owns this slug. Silently no-ops if /api/me 401s. */
+    (function () {
+      fetch('/api/me', { credentials: 'same-origin' })
+        .then(r => r.ok ? r.json() : null)
+        .then(me => {
+          if (!me) return;
+          const slug = new URLSearchParams(location.search).get('slug');
+          const btn = document.getElementById('edit-this-page');
+          if (!btn) return;
+          if (me.role === 'admin') { btn.href = './admin.html#team'; btn.hidden = false; }
+          else if (me.memberSlug && me.memberSlug === slug) { btn.href = './admin.html#me-page'; btn.hidden = false; }
+        })
+        .catch(() => {});
+    })();
   </script>
   <script>
     (function() {
       const themeToggle = document.getElementById('themeToggle');
       const icon = themeToggle.querySelector('i');
-
       function setTheme(isDark) {
         document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
         icon.classList.toggle('fa-sun', isDark);
         icon.classList.toggle('fa-moon', !isDark);
       }
-
       const mql = window.matchMedia('(prefers-color-scheme: dark)');
       setTheme(mql.matches);
       if (typeof mql.addEventListener === 'function') {
-        mql.addEventListener('change', function (e) { setTheme(e.matches); });
+        mql.addEventListener('change', function(e) { setTheme(e.matches); });
       } else if (typeof mql.addListener === 'function') {
-        mql.addListener(function (e) { setTheme(e.matches); });
+        mql.addListener(function(e) { setTheme(e.matches); });
       }
-
       try { localStorage.removeItem('theme'); } catch (_) {}
-
       themeToggle.addEventListener('click', function() {
         const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
         setTheme(!isDark);
       });
-
       if ('IntersectionObserver' in window) {
         const observer = new IntersectionObserver(function(entries) {
           entries.forEach(function(entry) {
@@ -192,14 +171,9 @@
             }
           });
         }, { threshold: 0.1 });
-
-        document.querySelectorAll('.section').forEach(function(el) {
-          observer.observe(el);
-        });
+        document.querySelectorAll('.section').forEach(function(el) { observer.observe(el); });
       } else {
-        document.querySelectorAll('.section').forEach(function(el) {
-          el.classList.add('visible');
-        });
+        document.querySelectorAll('.section').forEach(function(el) { el.classList.add('visible'); });
       }
     })();
   </script>

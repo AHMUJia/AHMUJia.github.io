@@ -1,0 +1,243 @@
+/* ============================================================
+ Per-role color overrides for the team / per-person pages.
+ Apply as a class on <body> (whole-page theming on a person page)
+ or on a section (per-block theming on the team roster).
+
+   .role-copi    Co-PI            green   (default Luka)
+   .role-phd     PhD candidate    purple
+   .role-master  Master student   blue
+   .role-ug      Undergraduate    charcoal
+ ============================================================ */
+
+/* ---------- Co-PI: green (matches default theme) ---------- */
+.role-copi {
+  --luka-accent:        #126f77;
+  --luka-accent-soft:   #22757d;
+  --luka-accent-hover:  #0e5a61;
+  --luka-border:        rgba(18, 111, 119, 0.22);
+  --luka-shadow:        rgba(18, 111, 119, 0.16);
+  --luka-social-text:   #126f77;
+  --luka-footer-border: rgba(18, 111, 119, 0.18);
+}
+[data-theme="dark"] .role-copi {
+  --luka-accent:        #3fa4ad;
+  --luka-accent-soft:   #6bbec4;
+  --luka-accent-hover:  #5cb6bd;
+  --luka-border:        rgba(63, 164, 173, 0.28);
+  --luka-shadow:        rgba(0, 0, 0, 0.4);
+  --luka-social-bg:     #17323460;
+  --luka-social-text:   #dbe7e7;
+  --luka-footer-border: rgba(63, 164, 173, 0.18);
+}
+
+/* ---------- PhD: purple ---------- */
+.role-phd {
+  --luka-accent:        #6a3f85;
+  --luka-accent-soft:   #7e52a0;
+  --luka-accent-hover:  #54306c;
+  --luka-border:        rgba(106, 63, 133, 0.22);
+  --luka-shadow:        rgba(106, 63, 133, 0.16);
+  --luka-social-text:   #6a3f85;
+  --luka-footer-border: rgba(106, 63, 133, 0.18);
+}
+[data-theme="dark"] .role-phd {
+  --luka-accent:        #b794d4;
+  --luka-accent-soft:   #c5a3dc;
+  --luka-accent-hover:  #d0b3e3;
+  --luka-border:        rgba(183, 148, 212, 0.28);
+  --luka-shadow:        rgba(0, 0, 0, 0.4);
+  --luka-social-bg:     #2a1d3260;
+  --luka-social-text:   #dbe7e7;
+  --luka-footer-border: rgba(183, 148, 212, 0.18);
+}
+
+/* ---------- Master: blue ---------- */
+.role-master {
+  --luka-accent:        #1f5fa6;
+  --luka-accent-soft:   #2a72c2;
+  --luka-accent-hover:  #194c83;
+  --luka-border:        rgba(31, 95, 166, 0.22);
+  --luka-shadow:        rgba(31, 95, 166, 0.16);
+  --luka-social-text:   #1f5fa6;
+  --luka-footer-border: rgba(31, 95, 166, 0.18);
+}
+[data-theme="dark"] .role-master {
+  --luka-accent:        #6ba1d8;
+  --luka-accent-soft:   #88b6e0;
+  --luka-accent-hover:  #95c2e8;
+  --luka-border:        rgba(107, 161, 216, 0.28);
+  --luka-shadow:        rgba(0, 0, 0, 0.4);
+  --luka-social-bg:     #1a2a3c60;
+  --luka-social-text:   #dbe7e7;
+  --luka-footer-border: rgba(107, 161, 216, 0.18);
+}
+
+/* ---------- Undergraduate: charcoal black ---------- */
+.role-ug {
+  --luka-accent:        #1f2d2e;
+  --luka-accent-soft:   #34464a;
+  --luka-accent-hover:  #0d1718;
+  --luka-border:        rgba(31, 45, 46, 0.22);
+  --luka-shadow:        rgba(31, 45, 46, 0.16);
+  --luka-social-text:   #1f2d2e;
+  --luka-footer-border: rgba(31, 45, 46, 0.30);
+}
+[data-theme="dark"] .role-ug {
+  --luka-accent:        #c8d4d6;
+  --luka-accent-soft:   #dbe7e7;
+  --luka-accent-hover:  #e8eef0;
+  --luka-border:        rgba(200, 212, 214, 0.28);
+  --luka-shadow:        rgba(0, 0, 0, 0.4);
+  --luka-social-bg:     #2a323360;
+  --luka-social-text:   #dbe7e7;
+  --luka-footer-border: rgba(200, 212, 214, 0.18);
+}
+
+/* ============================================================
+   Team roster page
+   ============================================================ */
+body.theme-luka .team-role-section {
+  margin-bottom: 48px;
+}
+body.theme-luka .team-role-section:last-child {
+  margin-bottom: 24px;
+}
+body.theme-luka .role-section-title {
+  margin: 0 0 18px;
+  padding-bottom: 10px;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--luka-accent);
+  border-bottom: 2px solid var(--luka-accent);
+  letter-spacing: 0.02em;
+}
+body.theme-luka .team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 20px;
+}
+body.theme-luka .team-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 18px 14px 16px;
+  background: var(--luka-surface);
+  border: 1px solid var(--luka-border);
+  border-radius: 14px;
+  box-shadow: 0 2px 10px var(--luka-shadow);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+  text-decoration: none;
+  color: inherit;
+}
+body.theme-luka .team-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 22px var(--luka-shadow);
+  border-color: var(--luka-accent);
+}
+body.theme-luka .team-card-photo {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: 12px;
+  background: var(--luka-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 0 3px var(--luka-border);
+}
+body.theme-luka .team-card-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+body.theme-luka .team-card-placeholder {
+  font-size: 48px;
+  font-weight: 700;
+  color: var(--luka-accent);
+  font-family: "Inter", sans-serif;
+}
+body.theme-luka .team-card-name {
+  margin: 4px 0 4px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--luka-text);
+}
+body.theme-luka .team-card-title {
+  margin: 0;
+  font-size: 13px;
+  color: var(--luka-muted);
+  line-height: 1.5;
+}
+body.theme-luka .team-empty {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 22px 0;
+  font-size: 14px;
+  color: var(--luka-muted);
+  font-style: italic;
+  text-align: center;
+}
+
+/* Avatar placeholder used on per-person page when no photo */
+body.theme-luka .avatar-placeholder {
+  width: 210px;
+  height: 210px;
+  border-radius: 50%;
+  background: var(--luka-bg);
+  border: 2px solid var(--luka-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 80px;
+  font-weight: 700;
+  color: var(--luka-accent);
+  box-shadow: 0 6px 24px var(--luka-shadow);
+  margin: 14px auto 28px;
+}
+
+/* "Edit this page" floating button (only shown when authenticated owner) */
+.edit-this-page {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  padding: 10px 18px;
+  background: var(--luka-accent);
+  color: #fff !important;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 16px var(--luka-shadow);
+  z-index: 50;
+  transition: background 0.2s ease, transform 0.18s ease;
+}
+.edit-this-page:hover {
+  background: var(--luka-accent-hover);
+  transform: translateY(-2px);
+  color: #fff !important;
+}
+@media (max-width: 640px) {
+  .edit-this-page { right: 12px; bottom: 12px; padding: 8px 14px; font-size: 12.5px; }
+}
+
+/* "Back to team" link in person sidebar */
+body.theme-luka .back-to-team {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 6px 14px;
+  font-size: 12.5px;
+  color: var(--luka-muted);
+  border: 1px solid var(--luka-border);
+  border-radius: 999px;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+body.theme-luka .back-to-team:hover {
+  color: #fff;
+  background: var(--luka-accent);
+  border-color: var(--luka-accent);
+}
