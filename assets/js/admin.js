@@ -565,17 +565,18 @@
      Visual list editor (Phase 4c) — replaces the JSON textarea
      for the nested team-member fields (education, experience, etc.)
      ============================================================ */
-  function listRow(label, obj, key, schema) {
+  function listRow(label, obj, key, schema, ctx) {
     obj[key] = obj[key] || [];
     return el('div', {class: 'form-row'},
       el('label', null, label),
       el('div', {class: 'field'},
-        buildListEditor(obj, key, schema)
+        buildListEditor(obj, key, schema, ctx)
       )
     );
   }
 
-  function buildListEditor(parent, parentKey, schema) {
+  function buildListEditor(parent, parentKey, schema, ctx) {
+    ctx = ctx || {};
     const wrap = el('div', {class: 'list-editor'});
 
     function getArr() { return parent[parentKey]; }
@@ -627,7 +628,11 @@
         )
       ));
       const body = el('div', {class: 'list-item-body'});
-      schema.fields.forEach(f => body.appendChild(renderListField(item, f)));
+      /* Preset selector at top of body (for Education / Experience institution presets) */
+      if (Array.isArray(schema.presets) && schema.presets.length) {
+        body.appendChild(renderPresetRow(item, schema, ctx, () => rerender()));
+      }
+      schema.fields.forEach(f => body.appendChild(renderListField(item, f, ctx)));
       card.appendChild(body);
       return card;
     }
@@ -641,7 +646,7 @@
     return wrap;
   }
 
-  function renderListField(item, field) {
+  function renderListField(item, field, ctx) {
     const row = el('div', {class: 'sub-row'});
     row.appendChild(el('label', null, field.label));
     const ctrl = el('div', {class: 'sub-ctrl'});
@@ -657,7 +662,7 @@
       case 'lines':             ctrl.appendChild(makeLinesInput(item, field)); break;
       case 'nested-list': {
         item[field.key] = item[field.key] || [];
-        ctrl.appendChild(buildListEditor(item, field.key, field.schema));
+        ctrl.appendChild(buildListEditor(item, field.key, field.schema, ctx));
         break;
       }
       default: ctrl.textContent = '(未知字段类型: ' + field.type + ')';
@@ -742,6 +747,98 @@
     );
   }
 
+  /* ============================================================
+     Cropper.js — lazy-loaded crop modal (photos only). Server still
+     post-processes via sharp afterwards (resize 600 + WebP).
+     ============================================================ */
+  const CROPPER_CSS = 'https://cdn.bootcdn.net/ajax/libs/cropperjs/1.6.2/cropper.min.css';
+  const CROPPER_JS  = 'https://cdn.bootcdn.net/ajax/libs/cropperjs/1.6.2/cropper.min.js';
+  let cropperLoadPromise = null;
+  function loadCropper() {
+    if (cropperLoadPromise) return cropperLoadPromise;
+    cropperLoadPromise = new Promise((resolve, reject) => {
+      const css = document.createElement('link');
+      css.rel = 'stylesheet'; css.href = CROPPER_CSS;
+      document.head.appendChild(css);
+      const sc = document.createElement('script');
+      sc.src = CROPPER_JS;
+      sc.onload  = () => resolve(window.Cropper);
+      sc.onerror = () => { cropperLoadPromise = null; reject(new Error('Cropper.js 加载失败')); };
+      document.head.appendChild(sc);
+    });
+    return cropperLoadPromise;
+  }
+
+  /* Returns Promise<File|null> — null when user cancels. */
+  function openCropModal(file, opts) {
+    opts = opts || {};
+    const aspectRatio = opts.aspectRatio || NaN;        /* NaN = 自由比例 */
+    const outputSize  = opts.outputSize || 600;
+    return new Promise((resolve) => {
+      loadCropper().then((Cropper) => {
+        const dataUrl = URL.createObjectURL(file);
+        const img = el('img', { src: dataUrl, style: 'max-width: 100%; display: block;' });
+        let cropper = null;
+
+        function cancel() {
+          if (cropper) { try { cropper.destroy(); } catch {} }
+          URL.revokeObjectURL(dataUrl);
+          dialog.remove();
+          resolve(null);
+        }
+        function confirm() {
+          if (!cropper) return cancel();
+          const canvas = cropper.getCroppedCanvas({ width: outputSize, height: outputSize, fillColor: '#fff' });
+          if (!canvas) return cancel();
+          canvas.toBlob((blob) => {
+            try { cropper.destroy(); } catch {}
+            URL.revokeObjectURL(dataUrl);
+            dialog.remove();
+            if (!blob) { resolve(null); return; }
+            const newName = file.name.replace(/\.[^.]+$/, '.jpg');
+            resolve(new File([blob], newName, { type: 'image/jpeg' }));
+          }, 'image/jpeg', 0.9);
+        }
+
+        const stage = el('div', {
+          style: 'max-height: 60vh; height: 60vh; background: #1a1a1a; overflow: hidden;'
+        }, img);
+        const dialog = el('div', { class: 'dialog-backdrop',
+          onclick: (e) => { if (e.target.classList.contains('dialog-backdrop')) cancel(); } },
+          el('div', { class: 'dialog-box', style: 'max-width: 720px; width: 95vw;' },
+            el('h3', null, '裁切照片'),
+            el('p', { class: 'muted', style: 'font-size: 13px; margin: 0 0 12px;' },
+              '拖动 / 缩放裁切框。确认后服务器会再压缩到 600px / WebP（约 50KB）。'),
+            stage,
+            el('div', { class: 'dialog-actions' },
+              el('button', { class: 'btn-ghost',   onclick: cancel  }, '取消'),
+              el('button', { class: 'btn-primary', onclick: confirm }, '确认裁切')
+            )
+          )
+        );
+        document.body.appendChild(dialog);
+
+        function init() {
+          if (cropper) return;
+          cropper = new Cropper(img, {
+            aspectRatio: aspectRatio,
+            viewMode: 1,
+            autoCropArea: 0.9,
+            background: false,
+            responsive: true,
+            zoomable: true,
+            movable: true,
+          });
+        }
+        if (img.complete && img.naturalWidth) init();
+        else img.addEventListener('load', init);
+      }).catch((err) => {
+        alert('裁切组件加载失败（' + err.message + '），将直接上传原图。');
+        resolve(file);
+      });
+    });
+  }
+
   /* Image input — small thumbnail + path field + upload button. Used inside
      list-item rows (compact form). For team-member's avatar see photoRow above. */
   function makeImageInput(item, field) {
@@ -809,6 +906,40 @@
     return wrap;
   }
 
+  /* Preset selector — quick-fill multiple keys (institution + logo + logoStyle)
+     based on a list of common institutions. Lives at the TOP of each list-item
+     card body when schema.presets is set. */
+  function renderPresetRow(item, schema, ctx, onChange) {
+    const lang = ctx && ctx.lang;
+    const sel = el('select', { class: 'form-select' });
+    sel.appendChild(el('option', {value: ''}, '— 从预设单位快速填充（学校名 + Logo） —'));
+    schema.presets.forEach((p, i) => {
+      const labelText = lang === 'en'
+        ? p.name_en
+        : (lang === 'zh' ? p.name_zh : `${p.name_zh} / ${p.name_en}`);
+      sel.appendChild(el('option', {value: String(i)}, labelText));
+    });
+    sel.addEventListener('change', () => {
+      if (sel.value === '') return;
+      const p = schema.presets[parseInt(sel.value, 10)];
+      if (!p) return;
+      const fieldKey = schema.presetField || 'institution';
+      if (lang === 'zh')      item[fieldKey] = p.name_zh;
+      else if (lang === 'en') item[fieldKey] = p.name_en;
+      else                    item[fieldKey] = { zh: p.name_zh, en: p.name_en };
+      item.logo      = p.logo || '';
+      item.logoStyle = p.logoStyle || '';
+      onChange();
+    });
+    return el('div', {class: 'sub-row preset-row'},
+      el('label', null, '快速填充'),
+      el('div', {class: 'sub-ctrl'},
+        sel,
+        el('div', {class: 'field-hint'}, '选一个常见单位 → 自动填学校名 + Logo（之后可继续手动调整）')
+      )
+    );
+  }
+
   /* Lines input — textarea where each line is one element of a string array. */
   function makeLinesInput(item, field) {
     const ta = el('textarea', { class: 'form-textarea',
@@ -821,6 +952,50 @@
     return ta;
   }
 
+  /* ============================================================
+     Institution presets — quick-fill for Education / Experience.
+     Picking one auto-fills the institution name + logo path.
+     Add new logos to /assets/img/ first, then add an entry here.
+     ============================================================ */
+  const INSTITUTION_PRESETS = [
+    {
+      name_zh: '安徽医科大学',
+      name_en: 'Anhui Medical University',
+      logo:    'assets/img/100ann.png'
+    },
+    {
+      name_zh: '安徽医科大学第一附属医院',
+      name_en: 'The First Affiliated Hospital of Anhui Medical University',
+      logo:    'assets/img/ahmu-hospital-real.png'
+    },
+    {
+      name_zh: '安徽医科大学临床医学院',
+      name_en: 'Clinical Medical College of Anhui Medical University',
+      logo:    'assets/img/ahmu-clinical.png'
+    },
+    {
+      name_zh: '安徽理工大学',
+      name_en: 'Anhui University of Science and Technology',
+      logo:    'assets/img/aust.png'
+    },
+    {
+      name_zh: '中国科学技术大学',
+      name_en: 'University of Science and Technology of China',
+      logo:    'assets/img/ustc-real.png'
+    },
+    {
+      name_zh: '中国医学科学院肿瘤医院',
+      name_en: 'Cancer Hospital, Chinese Academy of Medical Sciences',
+      logo:    'assets/img/cams-real.png',
+      logoStyle: 'on-ahmu-red'
+    },
+    {
+      name_zh: '罗切斯特大学医学中心',
+      name_en: 'University of Rochester Medical Center',
+      logo:    'assets/img/rochester-real.svg'
+    }
+  ];
+
   /* ============ Schemas for nested team-member fields ============ */
   const EDU_SCHEMA = {
     itemLabel: '学校',
@@ -831,6 +1006,8 @@
       const n = (e.levels || []).length;
       return i ? `${i}（${n} 个学位）` : '(未填学校)';
     },
+    presets: INSTITUTION_PRESETS,
+    presetField: 'institution',
     fields: [
       { key: 'institution', label: '学校', type: 'bilingual-text',
         placeholder: { zh: '安徽医科大学', en: 'Anhui Medical University' } },
@@ -867,6 +1044,8 @@
       const n = (e.roles || []).length;
       return a ? `${a}（${n} 个角色）` : '(未填单位)';
     },
+    presets: INSTITUTION_PRESETS,
+    presetField: 'alt',
     fields: [
       { key: 'alt', label: '单位名', type: 'bilingual-text',
         placeholder: { zh: '安徽医科大学', en: 'Anhui Medical University' } },
@@ -971,6 +1150,8 @@
     itemDefault: () => ({ institution: '', logo: '', logoStyle: '',
       levels: [{ degree: '', field: '', period: '' }] }),
     summarize: e => e.institution ? `${e.institution}（${(e.levels||[]).length} 个学位）` : '(未填学校)',
+    presets: INSTITUTION_PRESETS,
+    presetField: 'institution',
     fields: [
       { key: 'institution', label: '学校名', type: 'text' },
       { key: 'logo', label: 'Logo', type: 'image', uploadDir: 'uploads' },
@@ -993,6 +1174,8 @@
     itemDefault: () => ({ logo: '', logoStyle: '', alt: '',
       roles: [{ detail: '', period: '' }] }),
     summarize: e => e.alt ? `${e.alt}（${(e.roles||[]).length} 个角色）` : '(未填单位)',
+    presets: INSTITUTION_PRESETS,
+    presetField: 'alt',
     fields: [
       { key: 'alt', label: '单位名', type: 'text' },
       { key: 'logo', label: 'Logo', type: 'image', uploadDir: 'uploads' },
@@ -1263,7 +1446,7 @@
 
     function renderLang() {
       editorWrap.innerHTML = '';
-      editorWrap.appendChild(buildListEditor(data, langState.current, schema));
+      editorWrap.appendChild(buildListEditor(data, langState.current, schema, { lang: langState.current }));
     }
     function selectLang(lang) {
       langState.current = lang;
@@ -1337,12 +1520,18 @@
     const fileInput = el('input', { type: 'file', accept: 'image/jpeg,image/png,image/webp,image/gif', style: 'display:none' });
     const status = el('span', {class: 'muted'});
     fileInput.addEventListener('change', async () => {
-      const f = fileInput.files && fileInput.files[0];
-      if (!f) return;
-      if (f.size > 5 * 1024 * 1024) { status.textContent = '文件超过 5MB'; status.className = 'err-flash'; return; }
+      const original = fileInput.files && fileInput.files[0];
+      fileInput.value = '';
+      if (!original) return;
+      if (original.size > 10 * 1024 * 1024) { status.className = 'err-flash'; status.textContent = '原图 > 10MB'; return; }
+
+      status.className = 'muted'; status.textContent = '准备裁切…';
+      const cropped = await openCropModal(original, { aspectRatio: 1, outputSize: 600 });
+      if (!cropped) { status.textContent = ''; return; }
+
       status.className = 'muted'; status.textContent = '上传中…';
       const fd = new FormData();
-      fd.append('photo', f);
+      fd.append('photo', cropped);
       if (member.slug) fd.append('slug', member.slug);
       try {
         const res = await api('POST', '/api/upload', fd);
@@ -1352,14 +1541,12 @@
         status.className = 'ok-flash'; status.textContent = '✓ 上传成功';
       } catch (e) {
         status.className = 'err-flash'; status.textContent = '上传失败：' + e.message;
-      } finally {
-        fileInput.value = '';
       }
     });
 
     const pickBtn = el('button', {class: 'btn-ghost', type: 'button',
       onclick: () => fileInput.click()
-    }, '选择新照片');
+    }, '选择并裁切');
     const clearBtn = el('button', {class: 'btn-link', type: 'button',
       onclick: () => { member.photo = ''; pathInput.value = ''; renderPreview(); status.textContent = ''; }
     }, '清除');

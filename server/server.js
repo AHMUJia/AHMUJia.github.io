@@ -19,6 +19,7 @@ import express from 'express';
 import cookieParser from 'cookie-parser';
 import multer from 'multer';
 import bcrypt from 'bcryptjs';
+import sharp from 'sharp';
 import crypto from 'node:crypto';
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -376,7 +377,29 @@ app.post('/api/upload', authed, (req, res, next) => {
       }
     }
     if (!req.file) return res.status(400).json({ error: 'No file uploaded (field name: photo)' });
-    const relPath = `assets/img/${dir}/${req.file.filename}`;
+
+    /* ----- sharp post-processing -----
+       For raster images (jpeg / png / webp / gif): resize longest edge to 600px,
+       re-encode as WebP @ q82. SVG passes through untouched. */
+    let outputName = req.file.filename;
+    let outputPath = req.file.path;
+    if (/^image\/(jpeg|png|webp|gif)$/.test(req.file.mimetype)) {
+      const newName = req.file.filename.replace(/\.[^.]+$/, '.webp');
+      const newPath = path.join(path.dirname(outputPath), newName);
+      try {
+        await sharp(outputPath)
+          .rotate()  /* honor EXIF orientation, then strip metadata */
+          .resize({ width: 600, height: 600, fit: 'inside', withoutEnlargement: true })
+          .webp({ quality: 82 })
+          .toFile(newPath);
+        if (newPath !== outputPath) await fs.unlink(outputPath).catch(() => {});
+        outputName = newName;
+        outputPath = newPath;
+      } catch (e) {
+        console.error('[sharp]', e.message, '— keeping original file');
+      }
+    }
+    const relPath = `assets/img/${dir}/${outputName}`;
     res.json({ path: relPath, url: '/' + relPath });
   });
 });
