@@ -1,10 +1,10 @@
-# 把这一段【追加】到 /opt/papertracker/Caddyfile 末尾。
+# 把这一段【追加】到中央 Caddyfile 末尾（Plan B 部署：/opt/caddy/Caddyfile）。
 # 你现有的那段 papertracker.mengjialin.top { ... } 不要动。
 #
 # 前提：
 #   - /opt/mengjialin-site 已克隆好且挂到了 Caddy 容器的 /srv/mengjialin
-#     （由 docker-compose.blog.yml 的 caddy.volumes 叠加完成）
-#   - uroexplorer-admin 容器跑起来且和 caddy 同在 papertracker_default network
+#     （由 /opt/caddy/docker-compose.yml 完成）
+#   - uroexplorer-admin 容器跑起来且和 caddy 同在外部 network "web"
 
 mengjialin.top, www.mengjialin.top {
     encode zstd gzip

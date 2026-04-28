@@ -1,33 +1,26 @@
-# UroExplorer 部署 — 作为现有 papertracker compose 的 override 文件使用。
+# UroExplorer 独立 compose — 走 "中央 Caddy + 共享 web network" 方案。
 #
-# 使用：在 /opt/papertracker 目录下，把 -f 链 起来：
-#   cd /opt/papertracker
-#   docker compose \
-#     -f docker-compose.prod.yml \
-#     -f /opt/mengjialin-site/docker-compose.blog.yml \
-#     up -d --build uroexplorer-admin
+# 配套部署：
+#   /opt/caddy/         独立的 Caddy（中央反代）
+#   /opt/papertracker/  papertracker app（去掉了 caddy 子服务）
+#   /opt/mengjialin-site/  本仓库（含本 compose）
+# 都加入同一个外部 docker network: web
 #
-# 它会做两件事：
-#   1) 给现有 caddy 服务追加一个挂载  /opt/mengjialin-site:/srv/mengjialin:ro
-#      （让 Caddy 能读静态文件）
-#   2) 加一个新服务 uroexplorer-admin —— 自动加入 papertracker_default network
+# 启动：
+#   cd /opt/mengjialin-site
+#   docker compose -f docker-compose.blog.yml up -d --build
 #
-# 必须在 /opt/papertracker/.env 里多一行（跟 papertracker 共用 .env）：
+# 必须在 /opt/mengjialin-site/.env 里有一行：
 #   UROEXPLORER_SESSION_SECRET=<openssl rand -hex 32 的输出>
 
 services:
-  caddy:
-    # 叠加挂载（compose 合并 list，不覆盖原来的）
-    volumes:
-      - /opt/mengjialin-site:/srv/mengjialin:ro
-
   uroexplorer-admin:
-    build: /opt/mengjialin-site/server
+    build: ./server
     image: uroexplorer-admin:latest
     container_name: uroexplorer-admin
     restart: unless-stopped
     environment:
-      SESSION_SECRET: ${UROEXPLORER_SESSION_SECRET:?Append UROEXPLORER_SESSION_SECRET=... to /opt/papertracker/.env}
+      SESSION_SECRET: ${UROEXPLORER_SESSION_SECRET:?Set UROEXPLORER_SESSION_SECRET in /opt/mengjialin-site/.env}
       NODE_ENV: production
       SITE_DIR: /site
       DATA_DIR: /data
@@ -35,6 +28,11 @@ services:
     volumes:
       - /opt/mengjialin-site:/site:rw
       - /opt/mengjialin-admin-data:/data:rw
+    networks:
+      - web
     expose:
       - "3000"
-    # 不显式声明 network → 自动加入 papertracker_default（compose 项目的 default network）
+
+networks:
+  web:
+    external: true
