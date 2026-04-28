@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.cn/css2?family=Inter:wght@300;400;500;600;700&family=Ubuntu+Mono&display=swap');
+/* Inter + Ubuntu Mono 由各 HTML 头部 <link> 直接拉取（不再用 @import 链式请求）。 */
 
 body {
   background-color: #fff;
