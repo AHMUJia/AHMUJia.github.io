@@ -17,7 +17,11 @@
  *
  * Usage (inside the running uroexplorer-admin container):
  *   node batch-add-users.js /data/users.tsv
- *   node batch-add-users.js -        # read from stdin
+ *   node batch-add-users.js -                       # read from stdin
+ *   node batch-add-users.js /data/users.tsv --update-names
+ *     ↑ for rows whose username already exists, just refresh the bound
+ *       team entry's name_zh / name_en (handy when the first import had
+ *       wrong encoding). Password / role / slug never change.
  *
  * Tips on the host:
  *   sudo cp users.tsv /opt/mengjialin-admin-data/    # /data inside container
@@ -34,9 +38,13 @@ import { SECTIONS } from './sections.js';
 const DATA_DIR = process.env.DATA_DIR || path.resolve('./data');
 const SITE_DIR = process.env.SITE_DIR || path.resolve('..');
 
-const inputArg = process.argv[2];
+const flags = process.argv.slice(2).filter(a => a.startsWith('--'));
+const positional = process.argv.slice(2).filter(a => !a.startsWith('--'));
+const inputArg = positional[0];
+const updateNames = flags.includes('--update-names');
+
 if (!inputArg) {
-  console.error(`Usage: node batch-add-users.js <users.tsv | ->
+  console.error(`Usage: node batch-add-users.js <users.tsv | -> [--update-names]
 
 TSV format (tab-separated, first line = header):
   username\\tpassword\\trole\\tname_zh\\tname_en\\t[slug]
@@ -45,6 +53,11 @@ Examples (fill in values):
   yangfeixiang\\t123456\\tphd\\t杨飞翔\\tYang Feixiang
   lisi\\t123456\\tmaster\\t李四\\tLi Si
   boss\\tstrong-pw\\tadmin
+
+Flags:
+  --update-names    For usernames that already exist, just refresh the
+                    bound team entry's name_zh / name_en. Useful if the
+                    first import had wrong file encoding.
 `);
   process.exit(1);
 }
@@ -95,7 +108,7 @@ try { team = JSON.parse(await fs.readFile(teamFile, 'utf-8')); }
 catch (e) { if (e.code !== 'ENOENT') throw e; }
 
 /* ----- process rows ----- */
-let added = 0, skipped = 0, errors = 0;
+let added = 0, updated = 0, skipped = 0, errors = 0;
 
 for (let r = 1; r < lines.length; r++) {
   const cells = lines[r].split('\t').map(s => s.trim());
@@ -117,7 +130,27 @@ for (let r = 1; r < lines.length; r++) {
     console.error(`× row ${r}: invalid role "${role}" (use admin/copi/phd/master/ug)`); errors++; continue;
   }
   if (users[username]) {
-    console.log(`= row ${r}: user "${username}" already exists, skipped`); skipped++; continue;
+    if (updateNames) {
+      const u = users[username];
+      if (u.role === 'member' && u.memberSlug) {
+        const m = team.find(x => x.slug === u.memberSlug);
+        if (m) {
+          m.name = { zh: nameZh || '', en: nameEn || '' };
+          console.log(`↻ row ${r}: refreshed name for "${username}" (${u.memberSlug}) → ${nameZh}/${nameEn}`);
+          updated++;
+        } else {
+          console.error(`× row ${r}: "${username}" bound to slug "${u.memberSlug}" but no team entry found`);
+          errors++;
+        }
+      } else {
+        console.log(`= row ${r}: "${username}" is admin, no team entry to update`);
+        skipped++;
+      }
+    } else {
+      console.log(`= row ${r}: user "${username}" already exists, skipped (use --update-names to refresh name)`);
+      skipped++;
+    }
+    continue;
   }
 
   const passwordHash = await bcrypt.hash(password, 12);
@@ -169,6 +202,6 @@ const jsBody =
 await fs.writeFile(path.join(SITE_DIR, cfg.file), jsBody, 'utf-8');
 
 console.log(`
-Done. added: ${added}, skipped: ${skipped}, errors: ${errors}
+Done. added: ${added}, updated: ${updated}, skipped: ${skipped}, errors: ${errors}
 users.json now has ${Object.keys(users).length} account(s)
 team.json  now has ${team.length} member(s)`);
