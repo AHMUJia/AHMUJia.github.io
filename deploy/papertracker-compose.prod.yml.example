@@ -1,0 +1,78 @@
+# 改造过的 papertracker docker-compose.prod.yml（Plan B）。
+#
+# 跟你原先的版本相比：
+#   - 删除了 caddy 服务（搬到 /opt/caddy/）
+#   - 删除了 caddy_data / caddy_config 的 volumes 声明（被 /opt/caddy/ 接管）
+#   - web 服务加入外部 network "web"，让中央 Caddy 可以 reverse_proxy 它
+#   - 顶层声明 networks.web 为 external
+#
+# 应用：
+#   sudo cp /opt/mengjialin-site/deploy/papertracker-compose.prod.yml.example \
+#           /opt/papertracker/docker-compose.prod.yml
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      - ./docker/init-pg-trgm.sql:/docker-entrypoint-initdb.d/00-pg-trgm.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    volumes:
+      - redis_data:/data
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}?schema=public
+      REDIS_URL: redis://redis:6379
+      NEXTAUTH_URL: ${NEXTAUTH_URL}
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    networks:
+      - default
+      - web
+    expose:
+      - "3000"
+
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.worker
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}?schema=public
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+
+volumes:
+  pg_data:
+  redis_data:
+
+networks:
+  web:
+    external: true

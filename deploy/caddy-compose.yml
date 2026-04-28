@@ -1,0 +1,36 @@
+# Central Caddy reverse proxy (Plan B).
+#
+# 部署到 /opt/caddy/docker-compose.yml。运行：
+#   cd /opt/caddy && docker compose up -d
+#
+# 复用 papertracker 之前那两个 caddy_data / caddy_config 的 named volumes，
+# 这样 papertracker.mengjialin.top 的 Let's Encrypt 证书原地继续用，不用重新签。
+
+services:
+  caddy:
+    image: caddy:2-alpine
+    container_name: caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - /opt/mengjialin-site:/srv/mengjialin:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - web
+
+networks:
+  web:
+    external: true
+
+volumes:
+  caddy_data:
+    external: true
+    name: papertracker_caddy_data
+  caddy_config:
+    external: true
+    name: papertracker_caddy_config
