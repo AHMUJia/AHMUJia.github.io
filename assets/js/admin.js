@@ -971,12 +971,14 @@
     {
       name_zh: '安徽医科大学临床医学院',
       name_en: 'Clinical Medical College of Anhui Medical University',
-      logo:    'assets/img/ahmu-clinical.png'
+      logo:    'assets/img/ahmu-clinical.png',
+      logoStyle: 'on-ahmu-clinical-blue'
     },
     {
       name_zh: '安徽理工大学',
       name_en: 'Anhui University of Science and Technology',
-      logo:    'assets/img/aust.png'
+      logo:    'assets/img/aust.png',
+      logoStyle: 'on-aust-blue'
     },
     {
       name_zh: '中国科学技术大学',

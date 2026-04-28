@@ -620,6 +620,14 @@ body.theme-luka .institution-logo.on-cams-red {
   background: #a8192a;
 }
 
+body.theme-luka .institution-logo.on-aust-blue {
+  background: #003d7a;
+}
+
+body.theme-luka .institution-logo.on-ahmu-clinical-blue {
+  background: #1f5fa6;
+}
+
 body.theme-luka .experience-content {
   flex: 1;
   min-width: 0;
@@ -747,6 +755,8 @@ body.theme-luka .exp-logo {
 
 body.theme-luka .exp-logo.on-ahmu-red { background: var(--luka-accent); }
 body.theme-luka .exp-logo.on-cams-red { background: var(--luka-accent); }
+body.theme-luka .exp-logo.on-aust-blue { background: #003d7a; }
+body.theme-luka .exp-logo.on-ahmu-clinical-blue { background: #1f5fa6; }
 
 body.theme-luka .role-list {
   list-style: none;
