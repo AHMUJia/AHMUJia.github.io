@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="安徽医科大学生命科学学院">
-  <circle cx="32" cy="32" r="28" fill="#1f7a55"/>
-  <circle cx="32" cy="32" r="26" fill="none" stroke="#d6f2e4" stroke-width="1"/>
-  <path d="M22 18 C30 22, 30 30, 22 34 S14 46, 22 50" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/>
-  <path d="M42 14 C34 18, 34 26, 42 30 S50 42, 42 46" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.85"/>
-  <path d="M24 22 H40 M22 32 H42 M24 42 H40" stroke="#fff" stroke-width="1" opacity="0.6"/>
-  <text x="32" y="60" text-anchor="middle" fill="#1f7a55" font-family="Inter,sans-serif" font-size="5.5" font-weight="700" letter-spacing="0.6">SCHOOL OF LIFE SCIENCES</text>
-</svg>

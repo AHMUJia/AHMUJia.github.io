@@ -14,6 +14,21 @@ mengjialin.top, www.mengjialin.top {
         reverse_proxy uroexplorer-admin:3000
     }
 
+    # 漂亮 URL: /team/<slug> 内部 rewrite 到 /team-person.html?slug=<slug>
+    # 旧格式 /team-person.html?slug=xxx 仍可用（fall through 到 catch-all）
+    @team_zh path_regexp slugzh ^/team/([A-Za-z0-9_-]+)/?$
+    handle @team_zh {
+        rewrite * /team-person.html?slug={re.slugzh.1}
+        root * /srv/mengjialin
+        file_server
+    }
+    @team_en path_regexp slugen ^/team_en/([A-Za-z0-9_-]+)/?$
+    handle @team_en {
+        rewrite * /team-person_en.html?slug={re.slugen.1}
+        root * /srv/mengjialin
+        file_server
+    }
+
     # 其它都走静态
     handle {
         root * /srv/mengjialin

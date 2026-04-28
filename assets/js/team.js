@@ -68,7 +68,9 @@
   function renderTeamRoster() {
     var roles = ['copi', 'phd', 'master', 'ug'];
     var en = isEn();
-    var personPage = en ? './team-person_en.html' : './team-person.html';
+    /* Pretty URL: /team/<slug> (zh) or /team_en/<slug> (en).
+       Caddy rewrites these to /team-person(_en).html?slug=<slug> internally. */
+    var personPrefix = en ? '/team_en/' : '/team/';
 
     roles.forEach(function (role) {
       var grid = document.querySelector('.team-grid[data-role="' + role + '"]');
@@ -84,7 +86,7 @@
         var photoHtml = m.photo
           ? '<img src="' + escapeHtml(m.photo) + '" alt="' + escapeHtml(name) + '" loading="lazy">'
           : '<div class="team-card-placeholder">' + escapeHtml((name || '?').slice(0, 1)) + '</div>';
-        var href = personPage + '?slug=' + encodeURIComponent(m.slug);
+        var href = personPrefix + encodeURIComponent(m.slug);
         return [
           '<a class="team-card" href="' + href + '">',
             '<div class="team-card-photo">', photoHtml, '</div>',
@@ -96,14 +98,21 @@
     });
   }
 
+  /* Slug discovery: try ?slug= first (legacy URL), then /team/<slug> (pretty URL). */
+  function getCurrentSlug() {
+    var fromQuery = new URLSearchParams(window.location.search).get('slug');
+    if (fromQuery) return fromQuery;
+    var pathMatch = window.location.pathname.match(/^\/team(?:_en)?\/([a-zA-Z0-9_-]+)\/?$/);
+    return pathMatch ? pathMatch[1] : null;
+  }
+
   /* ============================================================
      Per-person rendering (team-person.html / team-person_en.html)
      ============================================================ */
   function renderTeamPerson() {
-    var params = new URLSearchParams(window.location.search);
-    var slug = params.get('slug');
+    var slug = getCurrentSlug();
     var en = isEn();
-    var rosterPage = en ? './team_en.html' : './team.html';
+    var rosterPage = en ? '/team_en' : '/team';
 
     if (!slug) {
       showError(en ? 'Missing slug parameter.' : '缺少 slug 参数。', rosterPage, en);

@@ -6,6 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>UroExplorer · 孟佳林课题组</title>
   <meta name="description" content="孟佳林课题组团队成员个人主页。">
+  <!-- Browser URL is /team/<slug>, but the file is /team-person.html. base ensures
+       all relative paths still resolve from site root. -->
+  <base href="/">
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 
   <link rel="preconnect" href="https://fonts.googleapis.cn">
@@ -132,11 +135,16 @@
         .then(r => r.ok ? r.json() : null)
         .then(me => {
           if (!me) return;
-          const slug = new URLSearchParams(location.search).get('slug');
+          /* Slug from query (?slug=) OR pretty URL (/team/<slug>) */
+          var slug = new URLSearchParams(location.search).get('slug');
+          if (!slug) {
+            var m = location.pathname.match(/^\/team(?:_en)?\/([a-zA-Z0-9_-]+)\/?$/);
+            if (m) slug = m[1];
+          }
           const btn = document.getElementById('edit-this-page');
           if (!btn) return;
-          if (me.role === 'admin') { btn.href = './admin.html#team'; btn.hidden = false; }
-          else if (me.memberSlug && me.memberSlug === slug) { btn.href = './admin.html#me-page'; btn.hidden = false; }
+          if (me.role === 'admin') { btn.href = '/admin.html#team'; btn.hidden = false; }
+          else if (me.memberSlug && me.memberSlug === slug) { btn.href = '/admin.html#me-page'; btn.hidden = false; }
         })
         .catch(() => {});
     })();
