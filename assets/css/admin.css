@@ -167,6 +167,37 @@ body.admin-body {
   font-weight: 600;
 }
 
+/* Member-form sub-tabs (used inside team-edit & my-page) */
+.mform-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 4px 0 20px;
+  border-bottom: 1px solid var(--luka-border);
+}
+.mform-tab {
+  appearance: none;
+  background: transparent;
+  border: 1px solid transparent;
+  border-bottom: none;
+  padding: 8px 16px;
+  border-radius: 8px 8px 0 0;
+  font: inherit;
+  font-size: 14px;
+  color: var(--luka-text);
+  cursor: pointer;
+  margin-bottom: -1px;
+}
+.mform-tab:hover { background: var(--luka-bg); color: var(--luka-accent); }
+.mform-tab.is-active {
+  background: var(--luka-surface);
+  border-color: var(--luka-border);
+  border-bottom-color: var(--luka-surface);
+  color: var(--luka-accent);
+  font-weight: 600;
+}
+.mform-panel { padding-top: 4px; }
+
 .admin-main {
   padding: 28px 32px;
   overflow-x: auto;

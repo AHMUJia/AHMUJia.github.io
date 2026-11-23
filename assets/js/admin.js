@@ -492,8 +492,11 @@
     const form = el('form', {class: 'admin-form', onsubmit: (e) => e.preventDefault()});
     const flash = el('div');
 
-    /* slug + role */
-    form.appendChild(formRow('Slug', el('input', {
+    /* ---------- Panels (one per category tab) ---------- */
+
+    /* 基本信息 */
+    const basicPanel = el('div', {class: 'mform-panel'});
+    basicPanel.appendChild(formRow('Slug', el('input', {
       class: 'form-input', value: member.slug || '', readonly: opts.lockSlug ? 'readonly' : null,
       placeholder: 'phd-zhangsan',
       oninput: (e) => member.slug = e.target.value.trim()
@@ -506,53 +509,87 @@
       if (member.role === k) o.setAttribute('selected', '');
       roleSelect.appendChild(o);
     }
-    form.appendChild(formRow('角色 / Role', roleSelect, opts.lockRole ? '已锁定。' : '不同角色对应不同主色调。'));
-
-    /* bilingual basics */
-    form.appendChild(bilingualRow('姓名 / Name', member, 'name'));
-    form.appendChild(bilingualRow('职位 / Title', member, 'title'));
-    form.appendChild(bilingualRow('单位 / Affiliation', member, 'affil', { textarea: true }));
-
-    /* email */
-    form.appendChild(formRow('Email', el('input', {
+    basicPanel.appendChild(formRow('角色 / Role', roleSelect, opts.lockRole ? '已锁定。' : '不同角色对应不同主色调。'));
+    basicPanel.appendChild(bilingualRow('姓名 / Name', member, 'name'));
+    basicPanel.appendChild(bilingualRow('职位 / Title', member, 'title'));
+    basicPanel.appendChild(bilingualRow('单位 / Affiliation', member, 'affil', { textarea: true }));
+    basicPanel.appendChild(formRow('Email', el('input', {
       class: 'form-input', value: member.email || '', type: 'email',
       oninput: (e) => member.email = e.target.value.trim()
     })));
+    basicPanel.appendChild(photoRow(member));
 
-    /* photo */
-    form.appendChild(photoRow(member));
-
-    /* about (bilingual array of strings) */
-    form.appendChild(bilingualStringsRow('简介 / About', member, 'about',
+    /* 简介 */
+    const aboutPanel = el('div', {class: 'mform-panel'});
+    aboutPanel.appendChild(bilingualStringsRow('简介 / About', member, 'about',
       '每行一段，会作为单独的 <p> 渲染。可写 HTML（链接、加粗等）。'));
 
-    /* Nested arrays — visual list editors */
-    form.appendChild(listRow('教育 / Education',    member, 'education',    EDU_SCHEMA));
-    form.appendChild(listRow('经历 / Experience',   member, 'experience',   EXP_SCHEMA));
-    form.appendChild(listRow('项目 / Projects',     member, 'projects',     PROJECT_SCHEMA));
-    form.appendChild(listRow('论文 / Publications', member, 'publications', PUB_SCHEMA));
-    form.appendChild(listRow('奖项 / Awards',       member, 'awards',       AWARD_SCHEMA));
+    /* 教育 / 经历 / 项目 / 论文 / 奖项 — each its own panel */
+    const eduPanel   = el('div', {class: 'mform-panel'},
+      listRow('教育 / Education',    member, 'education',    EDU_SCHEMA));
+    const expPanel   = el('div', {class: 'mform-panel'},
+      listRow('经历 / Experience',   member, 'experience',   EXP_SCHEMA));
+    const projPanel  = el('div', {class: 'mform-panel'},
+      listRow('项目 / Projects',     member, 'projects',     PROJECT_SCHEMA));
+    const pubPanel   = el('div', {class: 'mform-panel'},
+      listRow('论文 / Publications', member, 'publications', PUB_SCHEMA));
+    const awardPanel = el('div', {class: 'mform-panel'},
+      listRow('奖项 / Awards',       member, 'awards',       AWARD_SCHEMA));
 
-    /* social */
+    /* 社交链接 */
+    const socialPanel = el('div', {class: 'mform-panel'});
     const social = member.social = member.social || {};
-    form.appendChild(formRow('Google Scholar', el('input', {
+    socialPanel.appendChild(formRow('Google Scholar', el('input', {
       class: 'form-input', value: social.scholar || '', placeholder: 'https://scholar.google.com/...',
       oninput: (e) => social.scholar = e.target.value.trim()
     })));
-    form.appendChild(formRow('ORCID', el('input', {
+    socialPanel.appendChild(formRow('ORCID', el('input', {
       class: 'form-input', value: social.orcid || '', placeholder: 'https://orcid.org/0000-...',
       oninput: (e) => social.orcid = e.target.value.trim()
     })));
-    form.appendChild(formRow('ResearchGate', el('input', {
+    socialPanel.appendChild(formRow('ResearchGate', el('input', {
       class: 'form-input', value: social.researchgate || '', placeholder: 'https://www.researchgate.net/profile/...',
       oninput: (e) => social.researchgate = e.target.value.trim()
     })));
-    form.appendChild(formRow('GitHub', el('input', {
+    socialPanel.appendChild(formRow('GitHub', el('input', {
       class: 'form-input', value: social.github || '', placeholder: 'https://github.com/...',
       oninput: (e) => social.github = e.target.value.trim()
     })));
 
-    /* actions */
+    const groups = [
+      {key: 'basic',        label: '基本信息',  panel: basicPanel},
+      {key: 'about',        label: '简介',      panel: aboutPanel},
+      {key: 'education',    label: '教育',      panel: eduPanel},
+      {key: 'experience',   label: '经历',      panel: expPanel},
+      {key: 'projects',     label: '项目',      panel: projPanel},
+      {key: 'publications', label: '论文',      panel: pubPanel},
+      {key: 'awards',       label: '奖项',      panel: awardPanel},
+      {key: 'social',       label: '社交链接',  panel: socialPanel}
+    ];
+
+    /* ---------- Tab bar ---------- */
+    const tabBar = el('div', {class: 'mform-tabs'});
+    const tabBtns = {};
+    function activateTab(key) {
+      groups.forEach(g => {
+        g.panel.style.display = g.key === key ? '' : 'none';
+        tabBtns[g.key].classList.toggle('is-active', g.key === key);
+      });
+    }
+    groups.forEach(g => {
+      const btn = el('button', {
+        type: 'button', class: 'mform-tab',
+        onclick: () => activateTab(g.key)
+      }, g.label);
+      tabBtns[g.key] = btn;
+      tabBar.appendChild(btn);
+      g.panel.style.display = 'none';
+    });
+    form.appendChild(tabBar);
+    groups.forEach(g => form.appendChild(g.panel));
+    activateTab(groups[0].key);
+
+    /* ---------- Actions ---------- */
     const submitBtn = el('button', {class: 'btn-primary', type: 'submit'}, '保存');
     const cancelBtn = el('button', {class: 'btn-ghost',   type: 'button', onclick: opts.onCancel}, '取消');
     form.appendChild(el('div', {class: 'form-actions'}, submitBtn, cancelBtn, flash));
@@ -565,6 +602,7 @@
       if (!opts.lockSlug && !/^[a-z0-9-]+$/.test(member.slug)) {
         flash.className = 'err-flash';
         flash.textContent = 'slug 只能包含 a-z, 0-9, - ，不能为空。';
+        activateTab('basic');
         return;
       }
 

@@ -63,8 +63,8 @@
     if (p.role && rLbl) {
       parts.push('<span class="role-tag role-' + escapeHtml(p.role) + '">' + rLbl + '</span>');
     }
-    if (p.if != null && p.if !== '') parts.push('<span class="meta-if">IF ' + escapeHtml(p.if) + '</span>');
-    if (p.casZone) parts.push('<span class="meta-zone">' + L('中科院 ' + escapeHtml(p.casZone) + ' 区', 'CAS Tier ' + escapeHtml(p.casZone)) + '</span>');
+    if (p.if != null && p.if !== '') { var _ifv = parseFloat(p.if); var _ift = isNaN(_ifv) ? '' : (_ifv >= 10 ? ' if-high' : (_ifv >= 5 ? ' if-mid' : ' if-low')); parts.push('<span class="meta-if' + _ift + '">IF ' + escapeHtml(p.if) + '</span>'); }
+    if (p.casZone) { var _zc = (String(p.casZone) === '1') ? ' cas-top' : ''; parts.push('<span class="meta-zone' + _zc + '">' + L('中科院 ' + escapeHtml(p.casZone) + ' 区', 'CAS Tier ' + escapeHtml(p.casZone)) + '</span>'); }
     if (p.jcrZone) parts.push('<span class="meta-zone">' + L('JCR ' + escapeHtml(p.jcrZone) + ' 区', 'JCR Q' + escapeHtml(p.jcrZone)) + '</span>');
     if (p.isTop) parts.push('<span class="meta-top">' + L('Top 期刊', 'Top Journal') + '</span>');
     return '<div class="pub-header">' + parts.join('') + '</div>';

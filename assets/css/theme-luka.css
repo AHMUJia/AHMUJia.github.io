@@ -1610,3 +1610,15 @@ body.theme-luka .card-link {
     font-size: 13px;
   }
 }
+
+/* IF 分档配色：<5 蓝 / 5-10 绿 / >10 金（金色同获奖徽章），与绿色主题协调 */
+body.theme-luka .meta-if.if-low  { background: rgba(28,110,164,0.10); color: #1c6ea4; border-color: rgba(28,110,164,0.30); }
+body.theme-luka .meta-if.if-mid  { background: rgba(18,111,119,0.16); color: #0e5a61; border-color: rgba(18,111,119,0.34); }
+body.theme-luka .meta-if.if-high { background: var(--luka-gold); color: #fff; border-color: var(--luka-gold); }
+[data-theme="dark"] body.theme-luka .meta-if.if-low  { background: rgba(86,156,214,0.16); color: #8fc2e6; border-color: rgba(86,156,214,0.35); }
+[data-theme="dark"] body.theme-luka .meta-if.if-mid  { background: rgba(63,164,173,0.22); color: #cdeef1; border-color: rgba(63,164,173,0.40); }
+[data-theme="dark"] body.theme-luka .meta-if.if-high { background: var(--luka-gold); color: #fff; border-color: var(--luka-gold); }
+
+/* 中科院一区：金色（同获奖/高分IF徽章） */
+body.theme-luka .meta-zone.cas-top { background: var(--luka-gold); color: #fff; border-color: var(--luka-gold); }
+[data-theme="dark"] body.theme-luka .meta-zone.cas-top { background: var(--luka-gold); color: #fff; border-color: var(--luka-gold); }
