@@ -76,14 +76,55 @@
     return ' <a class="paper-link" href="' + escapeHtml(url) + '" target="_blank" rel="noopener">Paper →</a>';
   }
 
+  // ---- 同年度内的排序权重 = IF × 署名系数 ----
+  // 署名系数：本人是「一作里的第一个」或「通讯里的最后一个」→ 1.0，其余代表性署名 → 0.6。
+  // （通讯按 CV 惯例从后往前数，作者列表末位通讯 = 第一通讯，所以看的是 * 里的最后一个。）
+  const SELF_RE = /\b(Jialin Meng|Meng Jialin)\b/;
+
+  // "A#, B#, C, D*, E*" → [{name, co, corr}]
+  function parseAuthors(s) {
+    return String(s || '').split(/,\s*/).filter(Boolean).map(function (raw) {
+      const t = raw.trim();
+      return { name: t.replace(/[#*\s]+$/, ''), co: t.indexOf('#') >= 0, corr: t.indexOf('*') >= 0 };
+    });
+  }
+
+  function roleCoef(p) {
+    const list = parseAuthors(p.authors);
+    let me = -1;
+    for (let i = 0; i < list.length; i++) { if (SELF_RE.test(list[i].name)) { me = i; break; } }
+    if (me >= 0) {
+      const co = [], corr = [];
+      for (let i = 0; i < list.length; i++) {
+        if (list[i].co) co.push(i);
+        if (list[i].corr) corr.push(i);
+      }
+      if (me === 0) return 1;                                     // 第一作者
+      if (co.length && co[0] === me) return 1;                    // 共同一作里的第一个
+      if (corr.length && corr[corr.length - 1] === me) return 1;  // 通讯里的最后一个
+      if (co.length || corr.length) return 0.6;
+    }
+    // 作者串缺失/没有 #* 标记时退回 role 字段
+    return (p.role === 'first' || p.role === 'corresponding') ? 1 : 0.6;
+  }
+
+  function pubScore(p) {
+    const v = parseFloat(p.if);
+    return (isNaN(v) ? 0 : v) * roleCoef(p);
+  }
+
+  function comparePubs(a, b) {
+    const dy = Number(b.year) - Number(a.year);
+    if (dy) return dy;
+    return pubScore(b) - pubScore(a);
+  }
+
   function renderPubs(selector, opts) {
     opts = opts || {};
     const el = document.querySelector(selector);
     if (!el || !Array.isArray(window.__PUBS__)) return;
 
-    const sorted = window.__PUBS__.slice().sort(function (a, b) {
-      return Number(b.year) - Number(a.year);
-    });
+    const sorted = window.__PUBS__.slice().sort(comparePubs);
     const items = opts.limit ? sorted.slice(0, opts.limit) : sorted;
 
     el.innerHTML = items.map(function (p) {
@@ -251,6 +292,8 @@
   }
 
   window.renderPubs = renderPubs;
+  // 暴露排序内部件，供 tools/test-pub-order.js 与浏览器控制台核对
+  window.__pubOrder = { parseAuthors: parseAuthors, roleCoef: roleCoef, score: pubScore, compare: comparePubs };
   window.renderAbout = renderAbout;
   window.renderEducation = renderEducation;
   window.renderExperience = renderExperience;

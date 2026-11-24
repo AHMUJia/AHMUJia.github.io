@@ -30,7 +30,7 @@ window.__PUBS__ = [
     "isTop": false,
     "doi": "10.7150/ijbs.124532",
     "link": "",
-    "image": "https://www.ijbs.com/ms/getimage.php?name=ijbsv22p2027g001.jpg"
+    "image": "https://www.ijbs.com/v22/p2027/ijbsv22p2027g001.jpg"
   },
   {
     "year": 2026,
@@ -174,7 +174,7 @@ window.__PUBS__ = [
     "isTop": false,
     "doi": "10.7150/ijbs.111732",
     "link": "",
-    "image": "https://www.ijbs.com/ms/getimage.php?name=ijbsv21p3081g001.jpg"
+    "image": "https://www.ijbs.com/v21/p3081/ijbsv21p3081g001.jpg"
   },
   {
     "year": 2025,
@@ -190,7 +190,7 @@ window.__PUBS__ = [
     "isTop": false,
     "doi": "10.7150/ijbs.113908",
     "link": "",
-    "image": "https://www.ijbs.com/ms/getimage.php?name=ijbsv21p5725g001.jpg"
+    "image": "https://www.ijbs.com/v21/p5725/ijbsv21p5725g001.jpg"
   },
   {
     "year": 2025,
@@ -206,7 +206,7 @@ window.__PUBS__ = [
     "isTop": false,
     "doi": "10.7150/thno.109097",
     "link": "",
-    "image": "https://www.thno.org/ms/getimage.php?name=thnov15p5312g001.jpg"
+    "image": "https://www.thno.org/v15/p5312/thnov15p5312g001.jpg"
   },
   {
     "year": 2025,
