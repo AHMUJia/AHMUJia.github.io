@@ -34,7 +34,10 @@ eq(roleCoef({ authors: 'A, B, C', role: 'co-corresponding' }), 0.6, '本人不�
 // --- 总分 ---
 eq(score({ if: 14.9, authors: 'Jialin Meng#, A#', role: 'co-first' }), 14.9, 'IF×1.0');
 eq(score({ if: 11.7, authors: 'A#, Jialin Meng#', role: 'co-first' }), 11.7 * 0.6, 'IF×0.6');
-eq(score({ if: '', authors: 'Jialin Meng', role: 'first' }), 0, 'IF 为空算 0 分');
+// 中文期刊/新刊没有 IF → 按 5 计，不能算 0 分沉到最后
+eq(score({ if: '', authors: 'Jialin Meng', role: 'first' }), 5, 'IF 为空按 5 计（第一作者）');
+eq(score({ if: null, authors: 'A#, Jialin Meng#', role: 'co-first' }), 5 * 0.6, 'IF 为 null 按 5 计 ×0.6');
+eq(score({ if: 4.9, authors: 'Jialin Meng', role: 'first' }), 4.9, '有 IF 时不受缺省值影响');
 
 // --- 整体排序：先年份降序，同年按总分降序 ---
 const pubs = [

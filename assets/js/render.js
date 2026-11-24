@@ -108,9 +108,13 @@
     return (p.role === 'first' || p.role === 'corresponding') ? 1 : 0.6;
   }
 
+  // 中文期刊没有 IF，按 5 计权重 —— 否则算 0 分会沉到当年最后。
+  // 尚未拿到 IF 的新刊（iMetaMed、Bladder 等）同样走这个缺省值。
+  const NO_IF_SCORE = 5;
+
   function pubScore(p) {
     const v = parseFloat(p.if);
-    return (isNaN(v) ? 0 : v) * roleCoef(p);
+    return (isNaN(v) ? NO_IF_SCORE : v) * roleCoef(p);
   }
 
   function comparePubs(a, b) {
